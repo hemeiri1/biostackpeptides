@@ -27,7 +27,7 @@ function ProductsContent() {
       {/* Header */}
       <div className="mb-12">
         <p className="text-brand-cyan text-sm font-medium mb-2">Research Catalog</p>
-        <h1 className="text-4xl font-bold text-white mb-4">All Products</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">All Products</h1>
         <p className="text-brand-muted max-w-xl">
           Pharmaceutical-grade research peptides. All products are for in-vitro research
           and laboratory use only.
@@ -44,7 +44,7 @@ function ProductsContent() {
             placeholder="Search peptides..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-brand-card border border-brand-border rounded-lg text-white placeholder-brand-muted text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors"
+            className="w-full pl-10 pr-4 py-2.5 bg-brand-card border border-brand-border rounded-lg text-gray-900 placeholder-brand-muted text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors"
           />
         </div>
 
@@ -57,7 +57,7 @@ function ProductsContent() {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 selectedCategory === cat
                   ? "bg-brand-cyan text-brand-darker"
-                  : "bg-brand-card border border-brand-border text-brand-muted hover:text-white hover:border-brand-muted"
+                  : "bg-brand-card border border-brand-border text-brand-muted hover:text-gray-900 hover:border-brand-muted"
               }`}
             >
               {cat}

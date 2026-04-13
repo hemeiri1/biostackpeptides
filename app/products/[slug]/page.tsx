@@ -43,7 +43,7 @@ export default function ProductDetailPage() {
       {/* Back */}
       <Link
         href="/products"
-        className="inline-flex items-center gap-2 text-brand-muted hover:text-white text-sm mb-10 transition-colors"
+        className="inline-flex items-center gap-2 text-brand-muted hover:text-gray-900 text-sm mb-10 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Products
@@ -65,12 +65,12 @@ export default function ProductDetailPage() {
         {/* Info */}
         <div>
           <span className="text-brand-cyan text-sm font-medium">{product.category}</span>
-          <h1 className="text-4xl font-bold text-white mt-2 mb-4">{product.name}</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mt-2 mb-4">{product.name}</h1>
           <p className="text-brand-muted leading-relaxed mb-8">{product.longDescription}</p>
 
           {/* Price */}
           <div className="flex items-baseline gap-3 mb-8">
-            <span className="text-3xl font-bold text-white">${product.price}</span>
+            <span className="text-3xl font-bold text-gray-900">${product.price}</span>
             {product.originalPrice && (
               <span className="text-brand-muted text-lg line-through">
                 ${product.originalPrice}
@@ -85,7 +85,7 @@ export default function ProductDetailPage() {
 
           {/* Size */}
           <div className="mb-6">
-            <p className="text-white text-sm font-medium mb-3">Select Size</p>
+            <p className="text-gray-900 text-sm font-medium mb-3">Select Size</p>
             <div className="flex gap-3">
               {product.sizes.map((size) => (
                 <button
@@ -105,18 +105,18 @@ export default function ProductDetailPage() {
 
           {/* Quantity */}
           <div className="mb-8">
-            <p className="text-white text-sm font-medium mb-3">Quantity</p>
+            <p className="text-gray-900 text-sm font-medium mb-3">Quantity</p>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-9 h-9 rounded-lg border border-brand-border text-white hover:border-brand-cyan/50 transition-colors flex items-center justify-center text-lg"
+                className="w-9 h-9 rounded-lg border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors flex items-center justify-center text-lg"
               >
                 −
               </button>
-              <span className="text-white font-medium w-8 text-center">{quantity}</span>
+              <span className="text-gray-900 font-medium w-8 text-center">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="w-9 h-9 rounded-lg border border-brand-border text-white hover:border-brand-cyan/50 transition-colors flex items-center justify-center text-lg"
+                className="w-9 h-9 rounded-lg border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors flex items-center justify-center text-lg"
               >
                 +
               </button>
@@ -151,7 +151,7 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
         {/* Benefits */}
         <div className="p-6 rounded-xl border border-brand-border bg-brand-card">
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+          <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-brand-cyan" />
             Research Benefits
           </h3>
@@ -167,7 +167,7 @@ export default function ProductDetailPage() {
 
         {/* Usage */}
         <div className="p-6 rounded-xl border border-brand-border bg-brand-card">
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+          <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
             <Package className="w-5 h-5 text-brand-cyan" />
             Usage Guidelines
           </h3>
@@ -176,7 +176,7 @@ export default function ProductDetailPage() {
 
         {/* Storage */}
         <div className="p-6 rounded-xl border border-brand-border bg-brand-card">
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+          <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
             <Thermometer className="w-5 h-5 text-brand-cyan" />
             Storage & Handling
           </h3>
@@ -187,7 +187,7 @@ export default function ProductDetailPage() {
       {/* Related */}
       {related.length > 0 && (
         <div>
-          <h2 className="text-2xl font-bold text-white mb-8">Related Products</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />

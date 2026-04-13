@@ -30,7 +30,7 @@ export default function HomePage() {
               Premium Research Grade Peptides
             </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6">
               Advanced{" "}
               <span className="text-gradient">Peptide</span>
               <br />
@@ -52,7 +52,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-brand-border text-white hover:border-brand-cyan/50 transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors"
               >
                 Learn More
               </Link>
@@ -62,7 +62,7 @@ export default function HomePage() {
       </section>
 
       {/* Trust bar */}
-      <section className="border-y border-brand-border bg-brand-card/50">
+      <section className="border-y border-brand-border bg-blue-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -76,7 +76,7 @@ export default function HomePage() {
                   <Icon className="w-5 h-5 text-brand-cyan" />
                 </div>
                 <div>
-                  <p className="text-white text-sm font-semibold">{label}</p>
+                  <p className="text-gray-900 text-sm font-semibold">{label}</p>
                   <p className="text-brand-muted text-xs">{sub}</p>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default function HomePage() {
         <div className="flex items-end justify-between mb-12">
           <div>
             <p className="text-brand-cyan text-sm font-medium mb-2">Top Picks</p>
-            <h2 className="text-3xl font-bold text-white">Featured Products</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Featured Products</h2>
           </div>
           <Link
             href="/products"
@@ -108,11 +108,11 @@ export default function HomePage() {
       </section>
 
       {/* Categories */}
-      <section className="bg-brand-card/30 border-y border-brand-border">
+      <section className="bg-blue-50/30 border-y border-brand-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center mb-12">
             <p className="text-brand-cyan text-sm font-medium mb-2">Shop by Category</p>
-            <h2 className="text-3xl font-bold text-white">Research Categories</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Research Categories</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {[
@@ -128,7 +128,7 @@ export default function HomePage() {
                 className="flex flex-col items-center gap-3 p-6 rounded-xl border border-brand-border bg-brand-card hover:border-brand-cyan/40 hover:bg-brand-cyan/5 transition-all duration-200 group text-center"
               >
                 <span className="text-3xl">{emoji}</span>
-                <span className="text-sm font-medium text-brand-muted group-hover:text-white transition-colors">
+                <span className="text-sm font-medium text-brand-muted group-hover:text-gray-900 transition-colors">
                   {name}
                 </span>
               </Link>
@@ -141,7 +141,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-16">
           <p className="text-brand-cyan text-sm font-medium mb-2">Why Choose Us</p>
-          <h2 className="text-3xl font-bold text-white">The BioStack Standard</h2>
+          <h2 className="text-3xl font-bold text-gray-900">The BioStack Standard</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
@@ -169,7 +169,7 @@ export default function HomePage() {
               className="p-8 rounded-xl border border-brand-border bg-brand-card hover:border-brand-cyan/30 transition-colors"
             >
               <span className="text-4xl mb-6 block">{icon}</span>
-              <h3 className="text-white font-semibold text-lg mb-3">{title}</h3>
+              <h3 className="text-gray-900 font-semibold text-lg mb-3">{title}</h3>
               <p className="text-brand-muted text-sm leading-relaxed">{description}</p>
             </div>
           ))}
@@ -177,11 +177,11 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-brand-card/30 border-y border-brand-border">
+      <section className="bg-blue-50/30 border-y border-brand-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center mb-12">
             <p className="text-brand-cyan text-sm font-medium mb-2">Testimonials</p>
-            <h2 className="text-3xl font-bold text-white">Trusted by Researchers</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Trusted by Researchers</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -217,7 +217,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-brand-muted text-sm leading-relaxed mb-4">&ldquo;{text}&rdquo;</p>
                 <div>
-                  <p className="text-white text-sm font-semibold">{name}</p>
+                  <p className="text-gray-900 text-sm font-semibold">{name}</p>
                   <p className="text-brand-muted text-xs">{role}</p>
                 </div>
               </div>
@@ -230,7 +230,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="relative rounded-2xl border border-brand-cyan/20 bg-gradient-to-br from-brand-cyan/5 to-brand-blue/5 p-12 text-center overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-1 bg-gradient-to-r from-transparent via-brand-cyan to-transparent" />
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
             Ready to Start Your Research?
           </h2>
           <p className="text-brand-muted mb-8 max-w-lg mx-auto">

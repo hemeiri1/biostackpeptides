@@ -22,7 +22,7 @@ export default function ContactPage() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
       <div className="text-center mb-16">
         <p className="text-brand-cyan text-sm font-medium mb-3">Get in Touch</p>
-        <h1 className="text-4xl font-bold text-white mb-4">Contact Us</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
         <p className="text-brand-muted max-w-lg mx-auto">
           Questions about products, protocols, or your order? We&apos;re here to help.
           Expect a response within 24 business hours.
@@ -34,20 +34,20 @@ export default function ContactPage() {
         <div className="space-y-6">
           <div className="p-6 rounded-xl border border-brand-border bg-brand-card">
             <Mail className="w-6 h-6 text-brand-cyan mb-3" />
-            <h3 className="text-white font-semibold mb-1">Email</h3>
+            <h3 className="text-gray-900 font-semibold mb-1">Email</h3>
             <p className="text-brand-muted text-sm">Contact@biostackpeptide.com</p>
             <p className="text-brand-muted text-xs mt-1">Response within 24 hours</p>
           </div>
           <div className="p-6 rounded-xl border border-brand-border bg-brand-card">
             <MessageSquare className="w-6 h-6 text-brand-cyan mb-3" />
-            <h3 className="text-white font-semibold mb-1">Research Support</h3>
+            <h3 className="text-gray-900 font-semibold mb-1">Research Support</h3>
             <p className="text-brand-muted text-sm">
               Protocol guidance, reconstitution help, product selection — our team is ready.
             </p>
           </div>
           <div className="p-6 rounded-xl border border-brand-border bg-brand-card">
             <div className="text-2xl mb-3">📦</div>
-            <h3 className="text-white font-semibold mb-1">Order Support</h3>
+            <h3 className="text-gray-900 font-semibold mb-1">Order Support</h3>
             <p className="text-brand-muted text-sm">
               Include your order number in your message for fastest resolution.
             </p>
@@ -59,7 +59,7 @@ export default function ContactPage() {
           {submitted ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-12 rounded-xl border border-green-500/20 bg-green-500/5">
               <CheckCircle className="w-16 h-16 text-green-400 mb-4" />
-              <h2 className="text-2xl font-bold text-white mb-2">Message Sent!</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h2>
               <p className="text-brand-muted">
                 Thank you for reaching out. We&apos;ll get back to you within 24 hours.
               </p>
@@ -71,7 +71,7 @@ export default function ContactPage() {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Name
                   </label>
                   <input
@@ -79,12 +79,12 @@ export default function ContactPage() {
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-lg text-white placeholder-brand-muted text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors"
+                    className="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-lg text-gray-900 placeholder-brand-muted text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors"
                     placeholder="Your name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Email
                   </label>
                   <input
@@ -92,20 +92,20 @@ export default function ContactPage() {
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-lg text-white placeholder-brand-muted text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors"
+                    className="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-lg text-gray-900 placeholder-brand-muted text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors"
                     placeholder="your@email.com"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Subject
                 </label>
                 <select
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                  className="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-lg text-white text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors"
+                  className="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-lg text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors"
                 >
                   <option value="">Select a subject</option>
                   <option value="product">Product Inquiry</option>
@@ -117,7 +117,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Message
                 </label>
                 <textarea
@@ -125,7 +125,7 @@ export default function ContactPage() {
                   rows={6}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-lg text-white placeholder-brand-muted text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-lg text-gray-900 placeholder-brand-muted text-sm focus:outline-none focus:border-brand-cyan/50 transition-colors resize-none"
                   placeholder="Describe your question or request in detail..."
                 />
               </div>

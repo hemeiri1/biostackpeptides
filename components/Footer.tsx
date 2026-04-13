@@ -3,16 +3,16 @@ import { FlaskConical, Instagram, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-darker border-t border-brand-border mt-24">
+    <footer className="bg-gray-50 border-t border-brand-border mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded bg-gradient-to-br from-brand-cyan to-brand-blue flex items-center justify-center">
-                <FlaskConical className="w-4 h-4 text-white" />
+                <FlaskConical className="w-4 h-4 text-gray-900" />
               </div>
-              <span className="text-white font-bold text-lg tracking-tight">
+              <span className="text-gray-900 font-bold text-lg tracking-tight">
                 BioStack<span className="text-brand-cyan">Peptides</span>
               </span>
             </Link>
@@ -38,7 +38,7 @@ export default function Footer() {
 
           {/* Products */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">
+            <h4 className="text-gray-900 font-semibold text-sm mb-4 uppercase tracking-wider">
               Products
             </h4>
             <ul className="space-y-3">
@@ -52,7 +52,7 @@ export default function Footer() {
                 <li key={cat}>
                   <Link
                     href={`/products?category=${encodeURIComponent(cat)}`}
-                    className="text-brand-muted hover:text-white transition-colors text-sm"
+                    className="text-brand-muted hover:text-gray-900 transition-colors text-sm"
                   >
                     {cat}
                   </Link>
@@ -63,7 +63,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">
+            <h4 className="text-gray-900 font-semibold text-sm mb-4 uppercase tracking-wider">
               Company
             </h4>
             <ul className="space-y-3">
@@ -77,7 +77,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-brand-muted hover:text-white transition-colors text-sm"
+                    className="text-brand-muted hover:text-gray-900 transition-colors text-sm"
                   >
                     {link.label}
                   </Link>

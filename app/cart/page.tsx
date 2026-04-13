@@ -11,7 +11,7 @@ export default function CartPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
         <ShoppingBag className="w-16 h-16 text-brand-muted mx-auto mb-6" />
-        <h1 className="text-2xl font-bold text-white mb-3">Your cart is empty</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-3">Your cart is empty</h1>
         <p className="text-brand-muted mb-8">Add some research peptides to get started.</p>
         <Link
           href="/products"
@@ -28,13 +28,13 @@ export default function CartPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <Link
         href="/products"
-        className="inline-flex items-center gap-2 text-brand-muted hover:text-white text-sm mb-10 transition-colors"
+        className="inline-flex items-center gap-2 text-brand-muted hover:text-gray-900 text-sm mb-10 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Continue Shopping
       </Link>
 
-      <h1 className="text-3xl font-bold text-white mb-10">
+      <h1 className="text-3xl font-bold text-gray-900 mb-10">
         Your Cart ({totalItems} item{totalItems !== 1 ? "s" : ""})
       </h1>
 
@@ -54,7 +54,7 @@ export default function CartPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <h3 className="text-white font-semibold">{item.product.name}</h3>
+                    <h3 className="text-gray-900 font-semibold">{item.product.name}</h3>
                     <p className="text-brand-muted text-sm">Size: {item.size}</p>
                   </div>
                   <button
@@ -71,23 +71,23 @@ export default function CartPage() {
                       onClick={() =>
                         updateQuantity(item.product.id, item.size, item.quantity - 1)
                       }
-                      className="w-8 h-8 rounded border border-brand-border text-white hover:border-brand-cyan/50 transition-colors flex items-center justify-center"
+                      className="w-8 h-8 rounded border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors flex items-center justify-center"
                     >
                       −
                     </button>
-                    <span className="text-white font-medium w-6 text-center">
+                    <span className="text-gray-900 font-medium w-6 text-center">
                       {item.quantity}
                     </span>
                     <button
                       onClick={() =>
                         updateQuantity(item.product.id, item.size, item.quantity + 1)
                       }
-                      className="w-8 h-8 rounded border border-brand-border text-white hover:border-brand-cyan/50 transition-colors flex items-center justify-center"
+                      className="w-8 h-8 rounded border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors flex items-center justify-center"
                     >
                       +
                     </button>
                   </div>
-                  <span className="text-white font-semibold">
+                  <span className="text-gray-900 font-semibold">
                     ${(item.product.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
@@ -99,12 +99,12 @@ export default function CartPage() {
         {/* Summary */}
         <div className="lg:col-span-1">
           <div className="p-6 rounded-xl border border-brand-border bg-brand-card sticky top-24">
-            <h2 className="text-white font-semibold text-lg mb-6">Order Summary</h2>
+            <h2 className="text-gray-900 font-semibold text-lg mb-6">Order Summary</h2>
 
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Subtotal</span>
-                <span className="text-white">${totalPrice.toFixed(2)}</span>
+                <span className="text-gray-900">${totalPrice.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Shipping</span>
@@ -114,8 +114,8 @@ export default function CartPage() {
 
             <div className="border-t border-brand-border pt-4 mb-6">
               <div className="flex justify-between">
-                <span className="text-white font-semibold">Total</span>
-                <span className="text-white font-bold text-xl">${totalPrice.toFixed(2)}</span>
+                <span className="text-gray-900 font-semibold">Total</span>
+                <span className="text-gray-900 font-bold text-xl">${totalPrice.toFixed(2)}</span>
               </div>
             </div>
 

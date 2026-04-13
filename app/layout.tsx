@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-brand-darker min-h-screen">
+      <body className="bg-white min-h-screen">
         <CartProvider>
           <Navbar />
           <main className="pt-16">{children}</main>

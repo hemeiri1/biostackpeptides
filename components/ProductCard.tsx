@@ -43,7 +43,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="mb-1">
             <span className="text-xs text-brand-cyan font-medium">{product.category}</span>
           </div>
-          <h3 className="text-white font-semibold text-base mb-2 group-hover:text-brand-cyan transition-colors">
+          <h3 className="text-gray-900 font-semibold text-base mb-2 group-hover:text-brand-cyan transition-colors">
             {product.name}
           </h3>
           <p className="text-brand-muted text-sm leading-relaxed flex-1 mb-4">
@@ -73,7 +73,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {/* Price + Add to cart */}
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-white font-bold text-lg">${product.price}</span>
+              <span className="text-gray-900 font-bold text-lg">${product.price}</span>
               {product.originalPrice && (
                 <span className="text-brand-muted text-sm line-through ml-2">
                   ${product.originalPrice}

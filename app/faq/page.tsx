@@ -86,7 +86,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between py-5 text-left gap-4"
       >
-        <span className={`text-sm font-medium transition-colors ${open ? "text-brand-cyan" : "text-white"}`}>
+        <span className={`text-sm font-medium transition-colors ${open ? "text-brand-cyan" : "text-gray-900"}`}>
           {q}
         </span>
         <ChevronDown
@@ -105,7 +105,7 @@ export default function FAQPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
       <div className="text-center mb-16">
         <p className="text-brand-cyan text-sm font-medium mb-3">Help Center</p>
-        <h1 className="text-4xl font-bold text-white mb-4">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Frequently Asked Questions
         </h1>
         <p className="text-brand-muted">
