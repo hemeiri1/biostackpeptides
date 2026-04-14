@@ -30,7 +30,7 @@ export default function ProductCard({ product }: { product: Product }) {
         {/* Image area */}
         <div className="relative bg-gradient-to-br from-blue-50 to-white h-48 flex items-center justify-center overflow-hidden">
           <div className="group-hover:scale-105 transition-transform duration-300">
-            <VialImage name={product.shortName} size={currentSize.label} className="h-44" />
+            <VialImage name={product.shortName} size={currentSize.label} slug={product.slug} className="h-44" />
           </div>
           {product.badge && (
             <span className="absolute top-3 left-3 text-xs font-bold px-2 py-1 rounded bg-brand-cyan text-white">
