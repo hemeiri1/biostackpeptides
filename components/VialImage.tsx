@@ -7,124 +7,112 @@ interface VialImageProps {
 }
 
 export default function VialImage({ name, size, className = "" }: VialImageProps) {
+  const displayName = `${name} ${size}`;
+
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <svg
-        viewBox="0 0 240 360"
+        viewBox="0 0 260 340"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full max-w-[200px] max-h-[300px]"
+        className="w-full h-full max-w-[220px] max-h-[300px]"
       >
-        {/* === DARK BACKGROUND === */}
-        <rect width="240" height="360" rx="12" fill="#0A0F1A" />
+        {/* === SOFT BLUE-GRAY BACKGROUND === */}
+        <rect width="260" height="340" rx="8" fill="#C8D5E0" />
+        {/* Lighter center area */}
+        <ellipse cx="130" cy="170" rx="100" ry="140" fill="#D4DFE8" opacity="0.7" />
+        {/* Surface / table */}
+        <rect x="0" y="280" width="260" height="60" rx="0" fill="#BCC9D4" />
+        <line x1="0" y1="280" x2="260" y2="280" stroke="#B0BDC8" strokeWidth="0.5" />
 
-        {/* === GLOW EFFECT behind vial === */}
-        <ellipse cx="120" cy="180" rx="70" ry="120" fill="url(#glowGrad)" opacity="0.5" />
-        <ellipse cx="120" cy="300" rx="80" ry="20" fill="url(#reflectGrad)" opacity="0.3" />
+        {/* === SHADOW under vial === */}
+        <ellipse cx="130" cy="278" rx="40" ry="5" fill="rgba(0,0,0,0.08)" />
 
-        {/* === FLIP-OFF CAP (blue) === */}
-        <ellipse cx="120" cy="42" rx="20" ry="4" fill="#4A7A9E" />
-        <rect x="100" y="30" width="40" height="16" rx="3" fill="#5A8FB5" />
-        <rect x="102" y="32" width="36" height="6" rx="2" fill="#6FA8CC" />
-        <ellipse cx="120" cy="30" rx="18" ry="3" fill="#6FA8CC" />
-        {/* Cap shine */}
-        <rect x="106" y="33" width="10" height="4" rx="1.5" fill="rgba(255,255,255,0.2)" />
+        {/* === BLUE RUBBER STOPPER CAP (flat) === */}
+        <ellipse cx="130" cy="36" rx="22" ry="5" fill="#7A94AC" />
+        <rect x="108" y="24" width="44" height="14" rx="2" fill="#8BA3B8" />
+        <ellipse cx="130" cy="24" rx="22" ry="4" fill="#96AEC2" />
+        {/* Cap top highlight */}
+        <ellipse cx="124" cy="24" rx="8" ry="2" fill="rgba(255,255,255,0.2)" />
 
-        {/* === ALUMINUM CRIMP === */}
-        <rect x="96" y="46" width="48" height="14" rx="1.5" fill="#B8C4D0" />
-        <rect x="96" y="46" width="48" height="4" fill="#CDD5DE" />
-        <rect x="96" y="56" width="48" height="4" rx="1" fill="#A0ACB8" />
-        {/* Crimp ridges */}
-        {[0, 4, 8, 36, 40, 44].map((x) => (
-          <line key={x} x1={98 + x} y1="50" x2={98 + x} y2="58" stroke="#929EAA" strokeWidth="0.6" />
-        ))}
+        {/* === ALUMINUM CRIMP SEAL === */}
+        <rect x="104" y="38" width="52" height="14" rx="1" fill="#C8CED5" />
+        <rect x="104" y="38" width="52" height="3" fill="#D8DEE4" />
+        <rect x="104" y="49" width="52" height="3" rx="0.5" fill="#B0B8C2" />
+        {/* Crimp edge details */}
+        <rect x="102" y="44" width="56" height="2" fill="#BCC4CC" />
 
         {/* === GLASS NECK === */}
-        <rect x="106" y="60" width="28" height="26" fill="rgba(180,210,240,0.15)" stroke="rgba(150,185,220,0.4)" strokeWidth="0.8" />
-        <rect x="108" y="61" width="5" height="24" fill="rgba(255,255,255,0.08)" />
+        <rect x="112" y="52" width="36" height="24" fill="rgba(210,225,240,0.3)" stroke="rgba(180,200,220,0.5)" strokeWidth="0.8" />
+        {/* Neck left shine */}
+        <rect x="114" y="53" width="5" height="22" fill="rgba(255,255,255,0.2)" />
+        {/* Neck right edge */}
+        <rect x="143" y="53" width="2" height="22" fill="rgba(255,255,255,0.1)" />
 
         {/* === GLASS BODY === */}
         <path
-          d="M82 86 L82 290 Q82 308 100 308 L140 308 Q158 308 158 290 L158 86 Z"
-          fill="rgba(160,200,240,0.08)"
-          stroke="rgba(150,185,220,0.35)"
+          d="M92 76 L92 268 Q92 278 104 278 L156 278 Q168 278 168 268 L168 76 Z"
+          fill="rgba(215,230,245,0.2)"
+          stroke="rgba(170,195,220,0.45)"
           strokeWidth="1"
         />
 
-        {/* Left glass edge highlight */}
-        <path d="M86 90 L86 286 Q86 302 98 304" stroke="rgba(255,255,255,0.12)" strokeWidth="4" />
+        {/* Left glass reflection (bright) */}
+        <path d="M96 80 L96 264 Q96 274 104 276" stroke="rgba(255,255,255,0.3)" strokeWidth="5" />
 
-        {/* Center glass reflection */}
-        <path d="M118 90 L118 286" stroke="rgba(255,255,255,0.04)" strokeWidth="12" />
+        {/* Center broad highlight */}
+        <rect x="120" y="80" width="16" height="190" fill="rgba(255,255,255,0.07)" />
 
-        {/* Right glass edge */}
-        <path d="M154 90 L154 286" stroke="rgba(255,255,255,0.06)" strokeWidth="2" />
+        {/* Right glass edge highlight */}
+        <path d="M164 80 L164 264" stroke="rgba(255,255,255,0.15)" strokeWidth="2" />
 
         {/* === WHITE LABEL === */}
-        <rect x="87" y="120" width="66" height="140" rx="2" fill="white" />
+        <rect x="96" y="130" width="68" height="112" rx="2" fill="white" />
 
-        {/* Logo hexagon */}
-        <g transform="translate(106, 126)">
-          <polygon points="14,0 26,7 26,19 14,26 2,19 2,7" fill="#1B3A5C" />
-          <polygon points="14,3.5 23,8 23,18 14,22.5 5,18 5,8" fill="#2D5F8A" />
-          <polygon points="14,7 19,10 19,16 14,19 9,16 9,10" fill="#5B9BD5" />
-          <polygon points="14,10 16,11.5 16,14.5 14,16 12,14.5 12,11.5" fill="#B0D8F5" />
+        {/* --- Label content: Logo + BioStack side by side --- */}
+        {/* Hexagon logo */}
+        <g transform="translate(102, 136)">
+          <polygon points="10,0 18,5 18,15 10,20 2,15 2,5" fill="#1B3A5C" />
+          <polygon points="10,3 16,6.5 16,13.5 10,17 4,13.5 4,6.5" fill="#2D5F8A" />
+          <polygon points="10,6 14,8.5 14,12 10,14.5 6,12 6,8.5" fill="#5B9BD5" />
+          <polygon points="10,8.5 12,9.8 12,12 10,13 8,12 8,9.8" fill="#A8D4F5" />
         </g>
 
-        {/* BioStack */}
-        <text x="120" y="163" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="12" fontWeight="800" fill="#1B3A5C">BioStack</text>
+        {/* BioStack text (right of logo) */}
+        <text x="126" y="147" fontFamily="system-ui, -apple-system, sans-serif" fontSize="11" fontWeight="800" fill="#1B3A5C">BioStack</text>
 
         {/* PEPTIDES */}
-        <text x="120" y="174" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="6.5" fontWeight="600" fill="#5B9BD5" letterSpacing="2.5">PEPTIDES</text>
+        <text x="126" y="157" fontFamily="system-ui, -apple-system, sans-serif" fontSize="6" fontWeight="600" fill="#5B9BD5" letterSpacing="1.5">PEPTIDES</text>
 
-        {/* Line */}
-        <line x1="96" y1="182" x2="144" y2="182" stroke="#D0D8E0" strokeWidth="0.6" />
+        {/* Separator line */}
+        <line x1="102" y1="166" x2="158" y2="166" stroke="#E0E4E8" strokeWidth="0.6" />
 
-        {/* Product Name */}
-        <text x="120" y="200" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize={name.length > 14 ? "7" : name.length > 10 ? "8.5" : "10.5"} fontWeight="800" fill="#1B3A5C">
+        {/* Product name + size */}
+        <text x="130" y="184" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize={displayName.length > 16 ? "7.5" : displayName.length > 12 ? "9" : "10.5"} fontWeight="800" fill="#1B3A5C">
           {name}
         </text>
-
-        {/* Dosage */}
-        <text x="120" y="215" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="11" fontWeight="700" fill="#1B3A5C">
+        <text x="130" y="198" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="10" fontWeight="700" fill="#1B3A5C">
           {size}
         </text>
 
-        {/* Line */}
-        <line x1="96" y1="224" x2="144" y2="224" stroke="#D0D8E0" strokeWidth="0.6" />
+        {/* Separator */}
+        <line x1="102" y1="206" x2="158" y2="206" stroke="#E0E4E8" strokeWidth="0.6" />
 
-        {/* Purity */}
-        <text x="120" y="236" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="4.5" fontWeight="600" fill="#8FA8C0" letterSpacing="0.3">≥99% PURITY · COA CERTIFIED</text>
+        {/* Purity text */}
+        <text x="130" y="218" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="4.2" fontWeight="600" fill="#8A9AAC" letterSpacing="0.2">≥99% PURITY · COA CERTIFIED</text>
 
-        {/* === POWDER at bottom === */}
-        <path d="M86 278 Q120 288 154 278 L154 290 Q154 304 140 304 L100 304 Q86 304 86 290 Z" fill="rgba(255,255,255,0.06)" />
-        <ellipse cx="120" cy="278" rx="34" ry="5" fill="rgba(255,255,255,0.04)" />
+        {/* === WHITE POWDER at bottom === */}
+        <ellipse cx="130" cy="258" rx="32" ry="6" fill="rgba(240,240,245,0.5)" />
+        <rect x="98" y="248" width="64" height="12" fill="rgba(245,245,248,0.35)" />
 
-        {/* === REFLECTIVE SURFACE === */}
-        <line x1="30" y1="320" x2="210" y2="320" stroke="rgba(100,150,200,0.15)" strokeWidth="0.5" />
-        {/* Vial reflection below */}
+        {/* === BOTTOM OF VIAL (curved glass) === */}
+        <path d="M92 268 Q92 278 104 278 L156 278 Q168 278 168 268" fill="none" stroke="rgba(170,195,220,0.45)" strokeWidth="1" />
+
+        {/* === SUBTLE VIAL REFLECTION on surface === */}
         <path
-          d="M90 320 L90 340 Q90 345 100 345 L140 345 Q150 345 150 340 L150 320 Z"
-          fill="url(#reflectionGrad)"
-          opacity="0.15"
+          d="M100 282 L100 300 Q100 305 108 305 L152 305 Q160 305 160 300 L160 282 Z"
+          fill="rgba(170,195,220,0.08)"
         />
-
-        {/* === GRADIENTS === */}
-        <defs>
-          <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#0066FF" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="#0044AA" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="reflectGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#0066FF" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="reflectionGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#4488CC" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-          </linearGradient>
-        </defs>
       </svg>
     </div>
   );
