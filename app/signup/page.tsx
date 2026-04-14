@@ -26,7 +26,6 @@ export default function SignupPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setVerifyCode(data.verifyCode); // In production this comes via email
         setStep("verify");
       } else {
         setError(data.message);
@@ -142,10 +141,6 @@ export default function SignupPage() {
               <h1 className="text-2xl font-bold text-gray-900">Verify Your Email</h1>
               <p className="text-brand-muted text-sm mt-2">
                 We sent a 6-digit code to <strong>{email}</strong>
-              </p>
-              {/* Show code in dev — remove in production */}
-              <p className="text-brand-cyan text-xs mt-2 p-2 bg-brand-cyan/5 rounded-lg">
-                Your code: <strong>{verifyCode}</strong>
               </p>
             </div>
 
