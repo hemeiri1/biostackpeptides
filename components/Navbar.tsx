@@ -1,16 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ShoppingCart, Menu, X, ChevronDown, UserCircle } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency, currencies } from "@/lib/CurrencyContext";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [currencyOpen, setCurrencyOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const { totalItems } = useCart();
   const { currency, setCurrency } = useCurrency();
+
+  useEffect(() => {
+    setLoggedIn(!!localStorage.getItem("biostack_token"));
+  }, []);
 
   const links = [
     { href: "/products", label: "Products" },
@@ -27,10 +32,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <img src="/logo.png" alt="BioStack Peptides" className="h-8 w-auto" />
-            <span className="text-gray-900 font-bold text-lg tracking-tight hidden sm:inline">
-              BioStack<span className="text-brand-cyan">Peptides</span>
-            </span>
+            <img src="/logo.png" alt="BioStack Peptides" className="h-12 w-auto" />
           </Link>
 
           {/* Desktop links */}
@@ -79,6 +81,14 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+
+            {/* Account */}
+            <Link
+              href={loggedIn ? "/account" : "/login"}
+              className="p-2 text-brand-muted hover:text-gray-900 transition-colors"
+            >
+              <UserCircle className="w-5 h-5" />
+            </Link>
 
             {/* Cart */}
             <Link

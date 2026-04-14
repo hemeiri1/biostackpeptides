@@ -193,8 +193,38 @@ export default function CartPage() {
               )}
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Shipping</span>
-                <span className="text-green-400">Calculated at checkout</span>
+                {totalPrice >= 300 ? (
+                  <span className="text-green-600 font-medium">FREE</span>
+                ) : (
+                  <span className="text-brand-muted">AED {(300 - totalPrice).toFixed(0)} more for free shipping</span>
+                )}
               </div>
+            </div>
+
+            {/* Free shipping / BAC water offers */}
+            <div className="space-y-2 mb-6">
+              {totalPrice >= 300 && (
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-50 border border-green-200">
+                  <Check className="w-4 h-4 text-green-600 shrink-0" />
+                  <p className="text-green-700 text-xs font-medium">Free shipping applied!</p>
+                </div>
+              )}
+              {totalPrice >= 500 && !items.some((i) => i.product.slug === "bac-water" && i.product.price === 0) && (
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-50 border border-green-200">
+                  <Droplets className="w-4 h-4 text-green-600 shrink-0" />
+                  <p className="text-green-700 text-xs font-medium">Free 3ml BAC Water included with your order!</p>
+                </div>
+              )}
+              {totalPrice < 300 && (
+                <div className="px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">
+                  <p className="text-blue-700 text-xs">Spend <strong>AED {(300 - totalPrice).toFixed(0)}</strong> more for <strong>free shipping</strong></p>
+                </div>
+              )}
+              {totalPrice >= 300 && totalPrice < 500 && (
+                <div className="px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">
+                  <p className="text-blue-700 text-xs">Spend <strong>AED {(500 - totalPrice).toFixed(0)}</strong> more for a <strong>free 3ml BAC Water</strong></p>
+                </div>
+              )}
             </div>
 
             <div className="border-t border-brand-border pt-4 mb-6">
@@ -205,7 +235,7 @@ export default function CartPage() {
             </div>
 
             <button
-              className="w-full py-3 rounded-xl bg-brand-cyan text-brand-darker font-semibold hover:bg-brand-cyan/90 transition-colors flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-brand-cyan text-white font-semibold hover:bg-brand-cyan/90 transition-colors flex items-center justify-center gap-2"
               onClick={() => alert("Stripe checkout coming soon!")}
             >
               Proceed to Checkout
