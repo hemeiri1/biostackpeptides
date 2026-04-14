@@ -9,11 +9,11 @@ const faqs = [
     questions: [
       {
         q: "How long does shipping take?",
-        a: "Orders are processed within 24 hours. Standard shipping takes 3–5 business days. Express options are available at checkout. All orders ship in discreet, temperature-stable packaging.",
+        a: "We currently ship across the UAE with orders processed within 24 hours. Standard delivery takes 1–3 business days within the UAE. GCC shipping (Saudi Arabia, Kuwait, Qatar, Bahrain, Oman) is coming soon. All orders ship in discreet, temperature-stable packaging.",
       },
       {
         q: "Do you ship internationally?",
-        a: "We currently ship within select regions. Please contact us before ordering to confirm availability to your country. Customers are responsible for ensuring compliance with their local laws and customs regulations.",
+        a: "We currently offer shipping across the entire UAE with 1–3 business day delivery. GCC shipping (Saudi Arabia, Kuwait, Qatar, Bahrain, and Oman) is coming soon. Sign up for updates to be notified when we expand to your region.",
       },
       {
         q: "How is my order packaged?",

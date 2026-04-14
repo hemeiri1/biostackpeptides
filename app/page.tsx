@@ -69,7 +69,7 @@ export default function HomePage() {
             {[
               { icon: Shield, label: "99%+ Purity", sub: "Lab verified" },
               { icon: FlaskConical, label: "Research Grade", sub: "Pharmaceutical quality" },
-              { icon: Truck, label: "Fast Shipping", sub: "Discreet packaging" },
+              { icon: Truck, label: "UAE Shipping", sub: "GCC expansion coming soon" },
               { icon: Zap, label: "Lyophilized", sub: "Extended shelf life" },
             ].map(({ icon: Icon, label, sub }) => (
               <div key={label} className="flex items-center gap-3">
