@@ -10,7 +10,7 @@ import {
 } from "@/lib/agents";
 import { products } from "@/data/products";
 
-export async function GET() {
+export async function GET(req: Request) {
   // Run all agents in parallel
   const [uptimeReport, errorReport] = await Promise.all([
     uptimeAgent(),
@@ -18,7 +18,16 @@ export async function GET() {
   ]);
 
   // Sync agents
-  const trafficReport = trafficAgent(0, 0); // Connect to analytics later
+  // Fetch real traffic data
+  let todayViews = 0;
+  let todayVisitors = 0;
+  try {
+    const trackRes = await fetch(new URL("/api/track", req.url).toString(), { cache: "no-store" });
+    const trackData = await trackRes.json();
+    todayViews = trackData.todayPageViews || 0;
+    todayVisitors = trackData.todayUniqueVisitors || 0;
+  } catch {}
+  const trafficReport = trafficAgent(todayViews, todayVisitors);
   const inventoryReport = inventoryAgent(
     products.map((p) => ({ name: p.name, inStock: p.inStock, salesCount: p.salesCount }))
   );

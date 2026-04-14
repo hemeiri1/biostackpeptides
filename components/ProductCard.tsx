@@ -7,10 +7,13 @@ import { useState } from "react";
 import type { Product } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useStock } from "@/lib/useStock";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { format } = useCurrency();
+  const { isInStock } = useStock();
+  const inStock = isInStock(product.id, product.inStock);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [added, setAdded] = useState(false);
 
@@ -41,7 +44,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="absolute top-3 right-3 text-[10px] font-medium px-2 py-0.5 rounded bg-green-50 text-green-700 border border-green-200">
             ≥99% Pure
           </span>
-          {!product.inStock && (
+          {!inStock && (
             <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
               <span className="text-brand-muted text-sm font-medium">Out of Stock</span>
             </div>
@@ -87,7 +90,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <span className="text-gray-900 font-bold text-lg">{format(currentPrice)}</span>
             <button
               onClick={handleAddToCart}
-              disabled={!product.inStock}
+              disabled={!inStock}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 added
                   ? "bg-green-500/20 text-green-400 border border-green-500/30"
