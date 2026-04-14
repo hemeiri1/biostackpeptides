@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/CartContext";
 import { CurrencyProvider } from "@/lib/CurrencyContext";
+import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "BioStackPeptides — Premium Research Peptides",
@@ -32,6 +33,7 @@ export default function RootLayout({
             <Navbar />
             <main className="pt-16">{children}</main>
             <Footer />
+            <ChatWidget />
           </CartProvider>
         </CurrencyProvider>
       </body>
