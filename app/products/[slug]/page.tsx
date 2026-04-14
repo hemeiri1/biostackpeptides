@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   ShoppingCart,
   ArrowLeft,
-  FlaskConical,
   CheckCircle,
   AlertTriangle,
   Package,
@@ -16,6 +15,7 @@ import { getProductBySlug, products } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import ProductCard from "@/components/ProductCard";
+import VialImage from "@/components/VialImage";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -55,10 +55,8 @@ export default function ProductDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
         {/* Image */}
-        <div className="relative bg-gradient-to-br from-brand-dark to-brand-card rounded-2xl border border-brand-border h-96 lg:h-auto flex items-center justify-center">
-          <div className="w-40 h-40 rounded-full bg-gradient-to-br from-brand-cyan/20 to-brand-blue/20 flex items-center justify-center">
-            <FlaskConical className="w-20 h-20 text-brand-cyan/60" />
-          </div>
+        <div className="relative bg-gradient-to-br from-blue-50 to-white rounded-2xl border border-brand-border h-96 lg:h-auto flex items-center justify-center">
+          <VialImage name={product.shortName} size={currentSize!.label} className="h-80" />
           {product.badge && (
             <span className="absolute top-4 left-4 text-sm font-bold px-3 py-1 rounded-lg bg-brand-cyan text-brand-darker">
               {product.badge}
