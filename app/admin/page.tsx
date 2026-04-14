@@ -218,11 +218,11 @@ export default function AdminDashboard() {
               <p className="text-brand-muted text-xs">Toggle product stock on/off</p>
             </div>
           </Link>
-          <Link href="/products" className="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-white hover:border-brand-cyan/40 hover:shadow-md transition-all">
+          <Link href="/admin/products" className="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-white hover:border-brand-cyan/40 hover:shadow-md transition-all">
             <BarChart3 className="w-5 h-5 text-brand-cyan" />
             <div>
-              <p className="text-gray-900 font-medium text-sm">View Store</p>
-              <p className="text-brand-muted text-xs">See live product pages</p>
+              <p className="text-gray-900 font-medium text-sm">Product Editor</p>
+              <p className="text-brand-muted text-xs">Edit names and prices</p>
             </div>
           </Link>
           <Link href="/contact" className="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-white hover:border-brand-cyan/40 hover:shadow-md transition-all">

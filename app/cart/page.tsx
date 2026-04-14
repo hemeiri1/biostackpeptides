@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets } from "lucide-react";
+import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets, Tag, Check } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { products } from "@/data/products";
@@ -9,6 +10,40 @@ import { products } from "@/data/products";
 export default function CartPage() {
   const { items, addToCart, removeFromCart, updateQuantity, totalItems, totalPrice } = useCart();
   const { format } = useCurrency();
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const [discountMsg, setDiscountMsg] = useState("");
+  const [discountError, setDiscountError] = useState("");
+  const [applyingCode, setApplyingCode] = useState(false);
+
+  const discountAmount = totalPrice * (discountPercent / 100);
+  const finalPrice = totalPrice - discountAmount;
+
+  async function applyDiscount() {
+    if (!discountCode.trim()) return;
+    setApplyingCode(true);
+    setDiscountError("");
+    setDiscountMsg("");
+    try {
+      const res = await fetch("/api/discount", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: discountCode }),
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setDiscountPercent(data.discount);
+        setDiscountMsg(data.message);
+        setDiscountError("");
+      } else {
+        setDiscountError(data.message);
+        setDiscountPercent(0);
+      }
+    } catch {
+      setDiscountError("Failed to validate code");
+    }
+    setApplyingCode(false);
+  }
 
   if (items.length === 0) {
     return (
@@ -104,11 +139,58 @@ export default function CartPage() {
           <div className="p-6 rounded-xl border border-brand-border bg-brand-card sticky top-24">
             <h2 className="text-gray-900 font-semibold text-lg mb-6">Order Summary</h2>
 
+            {/* Discount Code */}
+            <div className="mb-6">
+              <label className="text-xs font-medium text-brand-muted mb-2 block">Discount Code</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={discountCode}
+                  onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
+                  placeholder="Enter code"
+                  disabled={discountPercent > 0}
+                  className="flex-1 px-3 py-2 bg-white border border-brand-border rounded-lg text-sm text-gray-900 placeholder-brand-muted focus:outline-none focus:border-brand-cyan/50 disabled:opacity-50"
+                />
+                {discountPercent > 0 ? (
+                  <button
+                    onClick={() => { setDiscountPercent(0); setDiscountCode(""); setDiscountMsg(""); }}
+                    className="px-3 py-2 rounded-lg border border-red-200 text-red-500 text-xs font-medium hover:bg-red-50 transition-colors"
+                  >
+                    Remove
+                  </button>
+                ) : (
+                  <button
+                    onClick={applyDiscount}
+                    disabled={applyingCode || !discountCode.trim()}
+                    className="px-4 py-2 rounded-lg bg-brand-cyan text-white text-xs font-medium hover:bg-brand-cyan/90 transition-colors disabled:opacity-40"
+                  >
+                    {applyingCode ? "..." : "Apply"}
+                  </button>
+                )}
+              </div>
+              {discountMsg && (
+                <p className="text-green-600 text-xs mt-2 flex items-center gap-1">
+                  <Check className="w-3 h-3" /> {discountMsg}
+                </p>
+              )}
+              {discountError && (
+                <p className="text-red-500 text-xs mt-2">{discountError}</p>
+              )}
+            </div>
+
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Subtotal</span>
                 <span className="text-gray-900">{format(totalPrice)}</span>
               </div>
+              {discountPercent > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-green-600 flex items-center gap-1">
+                    <Tag className="w-3 h-3" /> Discount ({discountPercent}%)
+                  </span>
+                  <span className="text-green-600">-{format(discountAmount)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Shipping</span>
                 <span className="text-green-400">Calculated at checkout</span>
@@ -118,7 +200,7 @@ export default function CartPage() {
             <div className="border-t border-brand-border pt-4 mb-6">
               <div className="flex justify-between">
                 <span className="text-gray-900 font-semibold">Total</span>
-                <span className="text-gray-900 font-bold text-xl">{format(totalPrice)}</span>
+                <span className="text-gray-900 font-bold text-xl">{format(finalPrice)}</span>
               </div>
             </div>
 

@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/CartContext";
 import { CurrencyProvider } from "@/lib/CurrencyContext";
 import ChatWidget from "@/components/ChatWidget";
+import TrackingPixel from "@/components/TrackingPixel";
 
 export const metadata: Metadata = {
   title: "BioStackPeptides — Premium Research Peptides",
@@ -34,6 +35,7 @@ export default function RootLayout({
             <main className="pt-16">{children}</main>
             <Footer />
             <ChatWidget />
+            <TrackingPixel />
           </CartProvider>
         </CurrencyProvider>
       </body>

@@ -1,0 +1,5 @@
+{
+  "BIOSTACK10": { "discount": 10, "maxUses": 10, "usedCount": 0 },
+  "PEPTIDE10": { "discount": 10, "maxUses": 10, "usedCount": 0 },
+  "RESEARCH10": { "discount": 10, "maxUses": 10, "usedCount": 0 }
+}
