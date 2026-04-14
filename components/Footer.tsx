@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FlaskConical, Instagram, Mail } from "lucide-react";
+import { FlaskConical, Instagram, Mail, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -32,6 +32,12 @@ export default function Footer() {
                 className="w-9 h-9 rounded border border-brand-border flex items-center justify-center text-brand-muted hover:text-brand-cyan hover:border-brand-cyan transition-colors"
               >
                 <Mail className="w-4 h-4" />
+              </a>
+              <a
+                href="tel:+18723661398"
+                className="w-9 h-9 rounded border border-brand-border flex items-center justify-center text-brand-muted hover:text-brand-cyan hover:border-brand-cyan transition-colors"
+              >
+                <Phone className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -71,8 +77,8 @@ export default function Footer() {
                 { label: "About Us", href: "/about" },
                 { label: "FAQ", href: "/faq" },
                 { label: "Contact", href: "/contact" },
-                { label: "Shipping Policy", href: "/faq#shipping" },
-                { label: "Privacy Policy", href: "/faq#privacy" },
+                { label: "Track Order", href: "/tracking" },
+                { label: "Peptide Calculator", href: "/calculator" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/CartContext";
+import { CurrencyProvider } from "@/lib/CurrencyContext";
 
 export const metadata: Metadata = {
   title: "BioStackPeptides — Premium Research Peptides",
@@ -26,11 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-white min-h-screen">
-        <CartProvider>
-          <Navbar />
-          <main className="pt-16">{children}</main>
-          <Footer />
-        </CartProvider>
+        <CurrencyProvider>
+          <CartProvider>
+            <Navbar />
+            <main className="pt-16">{children}</main>
+            <Footer />
+          </CartProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

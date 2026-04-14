@@ -5,9 +5,11 @@ import { ShoppingCart, FlaskConical } from "lucide-react";
 import { useState } from "react";
 import type { Product } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
+import { useCurrency } from "@/lib/CurrencyContext";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
+  const { format } = useCurrency();
   const [selectedSize, setSelectedSize] = useState(product.defaultSize);
   const [added, setAdded] = useState(false);
 
@@ -73,10 +75,10 @@ export default function ProductCard({ product }: { product: Product }) {
           {/* Price + Add to cart */}
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-gray-900 font-bold text-lg">${product.price}</span>
+              <span className="text-gray-900 font-bold text-lg">{format(product.price)}</span>
               {product.originalPrice && (
                 <span className="text-brand-muted text-sm line-through ml-2">
-                  ${product.originalPrice}
+                  {format(product.originalPrice)}
                 </span>
               )}
             </div>

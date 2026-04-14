@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { Trash2, ShoppingBag, ArrowLeft, ArrowRight } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
+import { useCurrency } from "@/lib/CurrencyContext";
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, totalItems, totalPrice } = useCart();
+  const { format } = useCurrency();
 
   if (items.length === 0) {
     return (
@@ -88,7 +90,7 @@ export default function CartPage() {
                     </button>
                   </div>
                   <span className="text-gray-900 font-semibold">
-                    ${(item.product.price * item.quantity).toFixed(2)}
+                    {format(item.product.price * item.quantity)}
                   </span>
                 </div>
               </div>
@@ -104,7 +106,7 @@ export default function CartPage() {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Subtotal</span>
-                <span className="text-gray-900">${totalPrice.toFixed(2)}</span>
+                <span className="text-gray-900">{format(totalPrice)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Shipping</span>
@@ -115,7 +117,7 @@ export default function CartPage() {
             <div className="border-t border-brand-border pt-4 mb-6">
               <div className="flex justify-between">
                 <span className="text-gray-900 font-semibold">Total</span>
-                <span className="text-gray-900 font-bold text-xl">${totalPrice.toFixed(2)}</span>
+                <span className="text-gray-900 font-bold text-xl">{format(totalPrice)}</span>
               </div>
             </div>
 

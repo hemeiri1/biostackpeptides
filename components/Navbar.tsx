@@ -2,15 +2,20 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ShoppingCart, Menu, X, FlaskConical } from "lucide-react";
+import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
+import { useCurrency, currencies } from "@/lib/CurrencyContext";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currencyOpen, setCurrencyOpen] = useState(false);
   const { totalItems } = useCart();
+  const { currency, setCurrency } = useCurrency();
 
   const links = [
     { href: "/products", label: "Products" },
+    { href: "/calculator", label: "Calculator" },
+    { href: "/tracking", label: "Track Order" },
     { href: "/about", label: "About" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
@@ -22,16 +27,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded bg-gradient-to-br from-brand-cyan to-brand-blue flex items-center justify-center">
-              <FlaskConical className="w-4 h-4 text-gray-900" />
-            </div>
-            <span className="text-gray-900 font-bold text-lg tracking-tight">
+            <img src="/logo.png" alt="BioStack Peptides" className="h-8 w-auto" />
+            <span className="text-gray-900 font-bold text-lg tracking-tight hidden sm:inline">
               BioStack<span className="text-brand-cyan">Peptides</span>
             </span>
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -43,22 +46,57 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Cart + Mobile toggle */}
-          <div className="flex items-center gap-4">
+          {/* Currency + Cart + Mobile toggle */}
+          <div className="flex items-center gap-3">
+            {/* Currency selector */}
+            <div className="relative">
+              <button
+                onClick={() => setCurrencyOpen(!currencyOpen)}
+                className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-brand-border text-xs font-medium text-brand-muted hover:text-gray-900 hover:border-brand-cyan/50 transition-colors"
+              >
+                {currency.code}
+                <ChevronDown className="w-3 h-3" />
+              </button>
+              {currencyOpen && (
+                <div className="absolute right-0 mt-2 w-36 bg-white border border-brand-border rounded-xl shadow-lg py-1 max-h-60 overflow-y-auto z-50">
+                  {currencies.map((c) => (
+                    <button
+                      key={c.code}
+                      onClick={() => {
+                        setCurrency(c);
+                        setCurrencyOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-sm hover:bg-blue-50 transition-colors flex items-center justify-between ${
+                        currency.code === c.code
+                          ? "text-brand-cyan font-medium"
+                          : "text-gray-900"
+                      }`}
+                    >
+                      <span>{c.code}</span>
+                      <span className="text-brand-muted text-xs">{c.symbol}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Cart */}
             <Link
               href="/cart"
               className="relative p-2 text-brand-muted hover:text-gray-900 transition-colors"
             >
               <ShoppingCart className="w-5 h-5" />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-cyan text-brand-darker text-xs font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-cyan text-white text-xs font-bold rounded-full flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </Link>
+
+            {/* Mobile toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 text-brand-muted hover:text-gray-900 transition-colors"
+              className="lg:hidden p-2 text-brand-muted hover:text-gray-900 transition-colors"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -68,7 +106,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-brand-border">
+        <div className="lg:hidden bg-white border-t border-brand-border">
           <div className="px-4 py-4 space-y-3">
             {links.map((link) => (
               <Link

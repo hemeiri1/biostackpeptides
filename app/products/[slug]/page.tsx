@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { getProductBySlug, products } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
+import { useCurrency } from "@/lib/CurrencyContext";
 import ProductCard from "@/components/ProductCard";
 
 export default function ProductDetailPage() {
@@ -22,6 +23,7 @@ export default function ProductDetailPage() {
   const product = getProductBySlug(slug);
 
   const { addToCart } = useCart();
+  const { format } = useCurrency();
   const [selectedSize, setSelectedSize] = useState(product?.defaultSize || "");
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -68,17 +70,22 @@ export default function ProductDetailPage() {
           <h1 className="text-4xl font-bold text-gray-900 mt-2 mb-4">{product.name}</h1>
           <p className="text-brand-muted leading-relaxed mb-8">{product.longDescription}</p>
 
+          {/* Purity badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-cyan/30 bg-brand-cyan/5 text-brand-cyan text-xs font-medium mb-4">
+            ≥99% Purity · COA Certified
+          </div>
+
           {/* Price */}
           <div className="flex items-baseline gap-3 mb-8">
-            <span className="text-3xl font-bold text-gray-900">${product.price}</span>
+            <span className="text-3xl font-bold text-gray-900">{format(product.price)}</span>
             {product.originalPrice && (
               <span className="text-brand-muted text-lg line-through">
-                ${product.originalPrice}
+                {format(product.originalPrice)}
               </span>
             )}
             {product.originalPrice && (
-              <span className="text-green-400 text-sm font-medium">
-                Save ${(product.originalPrice - product.price).toFixed(2)}
+              <span className="text-green-500 text-sm font-medium">
+                Save {format(product.originalPrice - product.price)}
               </span>
             )}
           </div>

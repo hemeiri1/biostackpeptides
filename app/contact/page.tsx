@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, MessageSquare, Send, CheckCircle } from "lucide-react";
+import { Mail, MessageSquare, Send, CheckCircle, Phone } from "lucide-react";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -37,6 +37,12 @@ export default function ContactPage() {
             <h3 className="text-gray-900 font-semibold mb-1">Email</h3>
             <p className="text-brand-muted text-sm">Contact@biostackpeptide.com</p>
             <p className="text-brand-muted text-xs mt-1">Response within 24 hours</p>
+          </div>
+          <div className="p-6 rounded-xl border border-brand-border bg-brand-card">
+            <Phone className="w-6 h-6 text-brand-cyan mb-3" />
+            <h3 className="text-gray-900 font-semibold mb-1">Phone / WhatsApp</h3>
+            <a href="tel:+18723661398" className="text-brand-muted text-sm hover:text-brand-cyan transition-colors">+1 (872) 366-1398</a>
+            <p className="text-brand-muted text-xs mt-1">Available Mon–Sat, 9AM–6PM</p>
           </div>
           <div className="p-6 rounded-xl border border-brand-border bg-brand-card">
             <MessageSquare className="w-6 h-6 text-brand-cyan mb-3" />
