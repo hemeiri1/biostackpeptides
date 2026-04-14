@@ -10,89 +10,121 @@ export default function VialImage({ name, size, className = "" }: VialImageProps
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <svg
-        viewBox="0 0 180 340"
+        viewBox="0 0 240 360"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full max-w-[150px] max-h-[280px]"
-        style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.12))" }}
+        className="w-full h-full max-w-[200px] max-h-[300px]"
       >
-        {/* === FLIP-OFF CAP (blue) === */}
-        <ellipse cx="90" cy="12" rx="24" ry="5" fill="#5A7FA0" />
-        <rect x="66" y="8" width="48" height="22" rx="3" fill="#6B92B5" />
-        <rect x="68" y="10" width="44" height="8" rx="2" fill="#7DA5C4" />
-        <ellipse cx="90" cy="30" rx="24" ry="4" fill="#5A7FA0" />
-        {/* Cap highlight */}
-        <rect x="74" y="12" width="12" height="6" rx="2" fill="rgba(255,255,255,0.25)" />
+        {/* === DARK BACKGROUND === */}
+        <rect width="240" height="360" rx="12" fill="#0A0F1A" />
 
-        {/* === ALUMINUM CRIMP SEAL === */}
-        <rect x="60" y="32" width="60" height="16" rx="2" fill="#C5CDD5" />
-        <rect x="60" y="32" width="60" height="5" rx="1" fill="#D8DFE6" />
-        <rect x="60" y="44" width="60" height="4" rx="1" fill="#B0B9C4" />
+        {/* === GLOW EFFECT behind vial === */}
+        <ellipse cx="120" cy="180" rx="70" ry="120" fill="url(#glowGrad)" opacity="0.5" />
+        <ellipse cx="120" cy="300" rx="80" ry="20" fill="url(#reflectGrad)" opacity="0.3" />
+
+        {/* === FLIP-OFF CAP (blue) === */}
+        <ellipse cx="120" cy="42" rx="20" ry="4" fill="#4A7A9E" />
+        <rect x="100" y="30" width="40" height="16" rx="3" fill="#5A8FB5" />
+        <rect x="102" y="32" width="36" height="6" rx="2" fill="#6FA8CC" />
+        <ellipse cx="120" cy="30" rx="18" ry="3" fill="#6FA8CC" />
+        {/* Cap shine */}
+        <rect x="106" y="33" width="10" height="4" rx="1.5" fill="rgba(255,255,255,0.2)" />
+
+        {/* === ALUMINUM CRIMP === */}
+        <rect x="96" y="46" width="48" height="14" rx="1.5" fill="#B8C4D0" />
+        <rect x="96" y="46" width="48" height="4" fill="#CDD5DE" />
+        <rect x="96" y="56" width="48" height="4" rx="1" fill="#A0ACB8" />
         {/* Crimp ridges */}
-        <line x1="62" y1="38" x2="62" y2="46" stroke="#AAB4BE" strokeWidth="0.5" />
-        <line x1="66" y1="38" x2="66" y2="46" stroke="#AAB4BE" strokeWidth="0.5" />
-        <line x1="70" y1="38" x2="70" y2="46" stroke="#AAB4BE" strokeWidth="0.5" />
-        <line x1="110" y1="38" x2="110" y2="46" stroke="#AAB4BE" strokeWidth="0.5" />
-        <line x1="114" y1="38" x2="114" y2="46" stroke="#AAB4BE" strokeWidth="0.5" />
-        <line x1="118" y1="38" x2="118" y2="46" stroke="#AAB4BE" strokeWidth="0.5" />
+        {[0, 4, 8, 36, 40, 44].map((x) => (
+          <line key={x} x1={98 + x} y1="50" x2={98 + x} y2="58" stroke="#929EAA" strokeWidth="0.6" />
+        ))}
 
         {/* === GLASS NECK === */}
-        <rect x="72" y="48" width="36" height="30" fill="rgba(220,235,248,0.4)" stroke="#C8D8E8" strokeWidth="1" />
-        {/* Neck shine */}
-        <rect x="75" y="49" width="6" height="28" fill="rgba(255,255,255,0.3)" />
+        <rect x="106" y="60" width="28" height="26" fill="rgba(180,210,240,0.15)" stroke="rgba(150,185,220,0.4)" strokeWidth="0.8" />
+        <rect x="108" y="61" width="5" height="24" fill="rgba(255,255,255,0.08)" />
 
         {/* === GLASS BODY === */}
-        {/* Main body */}
-        <path d="M50 78 L50 290 Q50 310 70 310 L110 310 Q130 310 130 290 L130 78 Z" fill="rgba(230,240,250,0.35)" stroke="#C0D0E0" strokeWidth="1.2" />
+        <path
+          d="M82 86 L82 290 Q82 308 100 308 L140 308 Q158 308 158 290 L158 86 Z"
+          fill="rgba(160,200,240,0.08)"
+          stroke="rgba(150,185,220,0.35)"
+          strokeWidth="1"
+        />
 
-        {/* Left glass reflection */}
-        <path d="M54 82 L54 286 Q54 302 66 306" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="6" />
+        {/* Left glass edge highlight */}
+        <path d="M86 90 L86 286 Q86 302 98 304" stroke="rgba(255,255,255,0.12)" strokeWidth="4" />
 
-        {/* Right subtle reflection */}
-        <path d="M126 82 L126 286" stroke="rgba(255,255,255,0.2)" strokeWidth="3" />
+        {/* Center glass reflection */}
+        <path d="M118 90 L118 286" stroke="rgba(255,255,255,0.04)" strokeWidth="12" />
+
+        {/* Right glass edge */}
+        <path d="M154 90 L154 286" stroke="rgba(255,255,255,0.06)" strokeWidth="2" />
 
         {/* === WHITE LABEL === */}
-        <rect x="55" y="120" width="70" height="140" rx="3" fill="white" stroke="#E8ECF0" strokeWidth="0.8" />
+        <rect x="87" y="120" width="66" height="140" rx="2" fill="white" />
 
         {/* Logo hexagon */}
-        <g transform="translate(74, 128)">
-          <polygon points="16,0 28,7 28,21 16,28 4,21 4,7" fill="#1B3A5C" />
-          <polygon points="16,4 25,9 25,19 16,24 7,19 7,9" fill="#2D5F8A" />
-          <polygon points="16,8 21,11 21,17 16,20 11,17 11,11" fill="#5B9BD5" />
-          <polygon points="16,11 18,12.5 18,15.5 16,17 14,15.5 14,12.5" fill="#A8D4F5" />
+        <g transform="translate(106, 126)">
+          <polygon points="14,0 26,7 26,19 14,26 2,19 2,7" fill="#1B3A5C" />
+          <polygon points="14,3.5 23,8 23,18 14,22.5 5,18 5,8" fill="#2D5F8A" />
+          <polygon points="14,7 19,10 19,16 14,19 9,16 9,10" fill="#5B9BD5" />
+          <polygon points="14,10 16,11.5 16,14.5 14,16 12,14.5 12,11.5" fill="#B0D8F5" />
         </g>
 
-        {/* BioStack text */}
-        <text x="90" y="168" textAnchor="middle" fontFamily="system-ui, Arial, sans-serif" fontSize="13" fontWeight="800" fill="#1B3A5C">BioStack</text>
+        {/* BioStack */}
+        <text x="120" y="163" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="12" fontWeight="800" fill="#1B3A5C">BioStack</text>
 
-        {/* PEPTIDES text */}
-        <text x="90" y="180" textAnchor="middle" fontFamily="system-ui, Arial, sans-serif" fontSize="7.5" fontWeight="600" fill="#5B9BD5" letterSpacing="3">PEPTIDES</text>
+        {/* PEPTIDES */}
+        <text x="120" y="174" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="6.5" fontWeight="600" fill="#5B9BD5" letterSpacing="2.5">PEPTIDES</text>
 
-        {/* Separator line */}
-        <line x1="66" y1="188" x2="114" y2="188" stroke="#E2E8F0" strokeWidth="0.8" />
+        {/* Line */}
+        <line x1="96" y1="182" x2="144" y2="182" stroke="#D0D8E0" strokeWidth="0.6" />
 
-        {/* Product name */}
-        <text x="90" y="206" textAnchor="middle" fontFamily="system-ui, Arial, sans-serif" fontSize={name.length > 14 ? "7.5" : name.length > 10 ? "9" : "11"} fontWeight="800" fill="#1B3A5C">
+        {/* Product Name */}
+        <text x="120" y="200" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize={name.length > 14 ? "7" : name.length > 10 ? "8.5" : "10.5"} fontWeight="800" fill="#1B3A5C">
           {name}
         </text>
 
         {/* Dosage */}
-        <text x="90" y="222" textAnchor="middle" fontFamily="system-ui, Arial, sans-serif" fontSize="12" fontWeight="700" fill="#1B3A5C">
+        <text x="120" y="215" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="11" fontWeight="700" fill="#1B3A5C">
           {size}
         </text>
 
-        {/* Separator */}
-        <line x1="66" y1="232" x2="114" y2="232" stroke="#E2E8F0" strokeWidth="0.8" />
+        {/* Line */}
+        <line x1="96" y1="224" x2="144" y2="224" stroke="#D0D8E0" strokeWidth="0.6" />
 
-        {/* Purity text */}
-        <text x="90" y="244" textAnchor="middle" fontFamily="system-ui, Arial, sans-serif" fontSize="5" fontWeight="600" fill="#8FA8C0" letterSpacing="0.3">≥99% PURITY · COA CERTIFIED</text>
+        {/* Purity */}
+        <text x="120" y="236" textAnchor="middle" fontFamily="system-ui, -apple-system, sans-serif" fontSize="4.5" fontWeight="600" fill="#8FA8C0" letterSpacing="0.3">≥99% PURITY · COA CERTIFIED</text>
 
         {/* === POWDER at bottom === */}
-        <path d="M54 280 Q90 290 126 280 L126 290 Q126 306 110 306 L70 306 Q54 306 54 290 Z" fill="rgba(240,240,240,0.5)" />
-        <ellipse cx="90" cy="280" rx="36" ry="5" fill="rgba(230,230,230,0.4)" />
+        <path d="M86 278 Q120 288 154 278 L154 290 Q154 304 140 304 L100 304 Q86 304 86 290 Z" fill="rgba(255,255,255,0.06)" />
+        <ellipse cx="120" cy="278" rx="34" ry="5" fill="rgba(255,255,255,0.04)" />
 
-        {/* === Bottom of vial (curved glass) === */}
-        <path d="M50 290 Q50 310 70 310 L110 310 Q130 310 130 290" fill="none" stroke="#C0D0E0" strokeWidth="1.2" />
+        {/* === REFLECTIVE SURFACE === */}
+        <line x1="30" y1="320" x2="210" y2="320" stroke="rgba(100,150,200,0.15)" strokeWidth="0.5" />
+        {/* Vial reflection below */}
+        <path
+          d="M90 320 L90 340 Q90 345 100 345 L140 345 Q150 345 150 340 L150 320 Z"
+          fill="url(#reflectionGrad)"
+          opacity="0.15"
+        />
+
+        {/* === GRADIENTS === */}
+        <defs>
+          <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#0066FF" stopOpacity="0.3" />
+            <stop offset="50%" stopColor="#0044AA" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="reflectGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#0066FF" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="reflectionGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#4488CC" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+          </linearGradient>
+        </defs>
       </svg>
     </div>
   );
