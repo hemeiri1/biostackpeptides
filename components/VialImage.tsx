@@ -24,10 +24,10 @@ const PRODUCT_IMAGES: Record<string, string> = {
   "nad-plus": "/images/nad.jpg",
   "cjc-ipamorelin": "/images/ipamorelin.jpg",
   "tesamorelin": "/images/tesamorelin.jpg",
-  "glow-stack": "/images/nacetyl.jpg",
-  "klow-stack": "/images/kpv.jpg",
-  "wolverine-stack": "/images/bpc157.jpg",
-  "bac-water": "/images/nacetyl.jpg",
+  "glow-stack": "/images/glowstack.jpg",
+  "klow-stack": "/images/klowstack.jpg",
+  "wolverine-stack": "/images/wolverinestack.jpg",
+  "bac-water": "/images/bacwater.jpg",
 };
 
 export default function VialImage({ name, size, slug, className = "" }: VialImageProps) {
