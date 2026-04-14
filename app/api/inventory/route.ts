@@ -1,20 +1,55 @@
 import { NextResponse } from "next/server";
 
-// In-memory stock store (persists while serverless function is warm)
-// For permanent persistence, upgrade to Vercel KV
-const stockOverrides: Map<string, boolean> = new Map();
+let kv: any = null;
+
+async function getKV() {
+  if (kv) return kv;
+  try {
+    const mod = await import("@vercel/kv");
+    kv = mod.kv;
+    return kv;
+  } catch {
+    return null;
+  }
+}
+
+// Fallback in-memory store
+const memoryStock: Map<string, boolean> = new Map();
+
+async function getStock(productId: string): Promise<boolean | null> {
+  const store = await getKV();
+  if (store) {
+    const val = await store.get(`stock:${productId}`);
+    return val !== null ? val as boolean : null;
+  }
+  return memoryStock.has(productId) ? memoryStock.get(productId)! : null;
+}
+
+async function setStock(productId: string, inStock: boolean) {
+  const store = await getKV();
+  if (store) {
+    await store.set(`stock:${productId}`, inStock);
+  } else {
+    memoryStock.set(productId, inStock);
+  }
+}
 
 // GET — return all products with stock status
 export async function GET() {
   const { products } = await import("@/data/products");
 
-  const productList = products.map((p) => ({
-    id: p.id,
-    slug: p.slug,
-    name: p.name,
-    inStock: stockOverrides.has(p.id) ? stockOverrides.get(p.id)! : p.inStock,
-    salesCount: p.salesCount,
-  }));
+  const productList = await Promise.all(
+    products.map(async (p) => {
+      const stockOverride = await getStock(p.id);
+      return {
+        id: p.id,
+        slug: p.slug,
+        name: p.name,
+        inStock: stockOverride !== null ? stockOverride : p.inStock,
+        salesCount: p.salesCount,
+      };
+    })
+  );
 
   return NextResponse.json(productList);
 }
@@ -23,9 +58,7 @@ export async function GET() {
 export async function POST(req: Request) {
   const updates: { id: string; inStock: boolean }[] = await req.json();
 
-  updates.forEach((item) => {
-    stockOverrides.set(item.id, item.inStock);
-  });
+  await Promise.all(updates.map((item) => setStock(item.id, item.inStock)));
 
   return NextResponse.json({ success: true, updated: updates.length });
 }
