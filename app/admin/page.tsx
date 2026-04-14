@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   Shield,
   AlertTriangle,
@@ -205,6 +206,34 @@ export default function AdminDashboard() {
           <p className="text-brand-muted">Running all agents...</p>
         </div>
       )}
+
+      {/* Quick Actions */}
+      <div className="mt-10 mb-8">
+        <h3 className="text-sm font-semibold text-gray-900 mb-3">Quick Actions</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <Link href="/admin/inventory" className="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-white hover:border-brand-cyan/40 hover:shadow-md transition-all">
+            <Package className="w-5 h-5 text-brand-cyan" />
+            <div>
+              <p className="text-gray-900 font-medium text-sm">Inventory Manager</p>
+              <p className="text-brand-muted text-xs">Toggle product stock on/off</p>
+            </div>
+          </Link>
+          <Link href="/products" className="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-white hover:border-brand-cyan/40 hover:shadow-md transition-all">
+            <BarChart3 className="w-5 h-5 text-brand-cyan" />
+            <div>
+              <p className="text-gray-900 font-medium text-sm">View Store</p>
+              <p className="text-brand-muted text-xs">See live product pages</p>
+            </div>
+          </Link>
+          <Link href="/contact" className="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-white hover:border-brand-cyan/40 hover:shadow-md transition-all">
+            <MessageSquare className="w-5 h-5 text-brand-cyan" />
+            <div>
+              <p className="text-gray-900 font-medium text-sm">Support Inbox</p>
+              <p className="text-brand-muted text-xs">Check contact submissions</p>
+            </div>
+          </Link>
+        </div>
+      </div>
 
       {/* Agent Architecture */}
       <div className="mt-12 p-6 rounded-xl border border-brand-border bg-white">
