@@ -22,7 +22,7 @@ const PRODUCT_IMAGES: Record<string, string> = {
   "igf-1-lr3": "/images/igf1lr3.jpg",
   "ghrp-6": "/images/ghrp6.jpg",
   "nad-plus": "/images/nad.jpg",
-  "cjc-ipamorelin": "/images/ipamorelin.jpg",
+  "cjc-ipamorelin": "/images/cjcipa.jpg",
   "tesamorelin": "/images/tesamorelin.jpg",
   "glow-stack": "/images/glowstack.jpg",
   "klow-stack": "/images/klowstack.jpg",
