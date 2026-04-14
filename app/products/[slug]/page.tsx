@@ -56,7 +56,7 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
         {/* Image */}
         <div className="relative bg-gradient-to-br from-blue-50 to-white rounded-2xl border border-brand-border h-96 lg:h-auto flex items-center justify-center">
-          <VialImage name={product.shortName} size={currentSize!.label} slug={product.slug} className="h-80" />
+          <VialImage name={product.shortName} size="" slug={product.slug} className="h-80" />
           {product.badge && (
             <span className="absolute top-4 left-4 text-sm font-bold px-3 py-1 rounded-lg bg-brand-cyan text-brand-darker">
               {product.badge}
@@ -79,6 +79,28 @@ export default function ProductDetailPage() {
           <div className="flex items-baseline gap-3 mb-8">
             <span className="text-3xl font-bold text-gray-900">{format(currentSize!.price)}</span>
           </div>
+
+          {/* Size */}
+          {product.sizes.length > 1 && (
+            <div className="mb-6">
+              <p className="text-gray-900 text-sm font-medium mb-3">Select Size</p>
+              <div className="flex gap-3">
+                {product.sizes.map((size, idx) => (
+                  <button
+                    key={size.label}
+                    onClick={() => setSelectedSizeIdx(idx)}
+                    className={`px-5 py-2.5 rounded-lg text-sm font-medium border transition-colors ${
+                      selectedSizeIdx === idx
+                        ? "border-brand-cyan bg-brand-cyan/10 text-brand-cyan"
+                        : "border-brand-border text-brand-muted hover:border-brand-muted"
+                    }`}
+                  >
+                    {size.label} — {format(size.price)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Quantity */}
           <div className="mb-8">
