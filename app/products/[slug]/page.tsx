@@ -24,14 +24,16 @@ export default function ProductDetailPage() {
 
   const { addToCart } = useCart();
   const { format } = useCurrency();
-  const [selectedSize, setSelectedSize] = useState(product?.defaultSize || "");
+  const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
   if (!product) return notFound();
 
+  const currentSize = product?.sizes[selectedSizeIdx];
+
   function handleAddToCart() {
-    addToCart(product!, selectedSize);
+    addToCart(product!, currentSize!.label);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }
@@ -77,34 +79,24 @@ export default function ProductDetailPage() {
 
           {/* Price */}
           <div className="flex items-baseline gap-3 mb-8">
-            <span className="text-3xl font-bold text-gray-900">{format(product.price)}</span>
-            {product.originalPrice && (
-              <span className="text-brand-muted text-lg line-through">
-                {format(product.originalPrice)}
-              </span>
-            )}
-            {product.originalPrice && (
-              <span className="text-green-500 text-sm font-medium">
-                Save {format(product.originalPrice - product.price)}
-              </span>
-            )}
+            <span className="text-3xl font-bold text-gray-900">{format(currentSize!.price)}</span>
           </div>
 
           {/* Size */}
           <div className="mb-6">
             <p className="text-gray-900 text-sm font-medium mb-3">Select Size</p>
             <div className="flex gap-3">
-              {product.sizes.map((size) => (
+              {product.sizes.map((size, idx) => (
                 <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
+                  key={size.label}
+                  onClick={() => setSelectedSizeIdx(idx)}
                   className={`px-5 py-2.5 rounded-lg text-sm font-medium border transition-colors ${
-                    selectedSize === size
+                    selectedSizeIdx === idx
                       ? "border-brand-cyan bg-brand-cyan/10 text-brand-cyan"
                       : "border-brand-border text-brand-muted hover:border-brand-muted"
                   }`}
                 >
-                  {size}
+                  {size.label} — {format(size.price)}
                 </button>
               ))}
             </div>

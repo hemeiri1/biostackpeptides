@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ArrowRight, Shield, Zap, FlaskConical, Truck, Star } from "lucide-react";
-import { getFeaturedProducts } from "@/data/products";
+import { getFeaturedProducts, getBestSellers } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 
 export default function HomePage() {
   const featured = getFeaturedProducts();
+  const bestSellers = getBestSellers(4);
 
   return (
     <div>
@@ -102,6 +103,27 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {featured.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      {/* Best Sellers */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex items-end justify-between mb-12">
+          <div>
+            <p className="text-brand-cyan text-sm font-medium mb-2">Most Popular</p>
+            <h2 className="text-3xl font-bold text-gray-900">Best Sellers</h2>
+          </div>
+          <Link
+            href="/products"
+            className="text-brand-muted hover:text-brand-cyan text-sm flex items-center gap-1 transition-colors"
+          >
+            View all <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {bestSellers.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
