@@ -60,28 +60,6 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.description}
           </p>
 
-          {/* Size selector */}
-          {product.sizes.length > 1 && (
-            <div className="flex gap-2 mb-4" onClick={(e) => e.preventDefault()}>
-              {product.sizes.map((size, idx) => (
-                <button
-                  key={size.label}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedSizeIdx(idx);
-                  }}
-                  className={`px-3 py-1 rounded text-xs font-medium border transition-colors ${
-                    selectedSizeIdx === idx
-                      ? "border-brand-cyan bg-brand-cyan/10 text-brand-cyan"
-                      : "border-brand-border text-brand-muted hover:border-brand-muted"
-                  }`}
-                >
-                  {size.label}
-                </button>
-              ))}
-            </div>
-          )}
-
           {/* Price + Add to cart */}
           <div className="flex items-center justify-between">
             <span className="text-gray-900 font-bold text-lg">{format(currentPrice)}</span>

@@ -80,26 +80,6 @@ export default function ProductDetailPage() {
             <span className="text-3xl font-bold text-gray-900">{format(currentSize!.price)}</span>
           </div>
 
-          {/* Size */}
-          <div className="mb-6">
-            <p className="text-gray-900 text-sm font-medium mb-3">Select Size</p>
-            <div className="flex gap-3">
-              {product.sizes.map((size, idx) => (
-                <button
-                  key={size.label}
-                  onClick={() => setSelectedSizeIdx(idx)}
-                  className={`px-5 py-2.5 rounded-lg text-sm font-medium border transition-colors ${
-                    selectedSizeIdx === idx
-                      ? "border-brand-cyan bg-brand-cyan/10 text-brand-cyan"
-                      : "border-brand-border text-brand-muted hover:border-brand-muted"
-                  }`}
-                >
-                  {size.label} — {format(size.price)}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Quantity */}
           <div className="mb-8">
             <p className="text-gray-900 text-sm font-medium mb-3">Quantity</p>
