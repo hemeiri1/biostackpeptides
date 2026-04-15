@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { UserPlus, Mail, Lock, User, ArrowRight, CheckCircle, Calendar, Users } from "lucide-react";
+import { UserPlus, Mail, Lock, User, ArrowRight, CheckCircle, Calendar, Users, Phone } from "lucide-react";
 
 export default function SignupPage() {
   const [step, setStep] = useState<"signup" | "verify" | "done">("signup");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [birthday, setBirthday] = useState("");
   const searchParams = useSearchParams();
   const [referralCode, setReferralCode] = useState("");
@@ -49,7 +50,7 @@ export default function SignupPage() {
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "signup", name, email, password, birthday, referralCode: referralCode || undefined }),
+        body: JSON.stringify({ action: "signup", name, email, password, phone: phone || undefined, birthday, referralCode: referralCode || undefined }),
       });
       const data = await res.json();
       if (data.success) {
@@ -125,6 +126,19 @@ export default function SignupPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
                     placeholder="your@email.com"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-900 mb-1 block">Phone Number <span className="text-brand-muted font-normal">(optional)</span></label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
+                    placeholder="+971 50 123 4567"
                   />
                 </div>
               </div>

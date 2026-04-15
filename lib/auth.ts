@@ -7,6 +7,7 @@ export interface User {
   email: string;
   name: string;
   password: string; // In production, use bcrypt hash
+  phone: string;
   verified: boolean;
   verifyCode: string;
   loyaltyPoints: number;
@@ -64,7 +65,7 @@ function generateReferralCode(name: string): string {
   return `BSP-${clean}${rand}`;
 }
 
-export function createUser(email: string, name: string, password: string, birthday?: string, referralCode?: string): User {
+export function createUser(email: string, name: string, password: string, phone?: string, birthday?: string, referralCode?: string): User {
   const existing = Array.from(users.values()).find((u) => u.email === email);
   if (existing) throw new Error("Email already registered");
 
@@ -76,6 +77,7 @@ export function createUser(email: string, name: string, password: string, birthd
     email,
     name,
     password,
+    phone: phone || "",
     verified: false,
     verifyCode,
     loyaltyPoints: 0,

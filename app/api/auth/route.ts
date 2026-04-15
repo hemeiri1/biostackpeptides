@@ -18,6 +18,7 @@ function userPayload(user: any) {
     id: user.id,
     email: user.email,
     name: user.name,
+    phone: user.phone,
     loyaltyPoints: user.loyaltyPoints,
     orderCount: user.orderCount,
     bonusCredit: user.bonusCredit,
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
 
   try {
     if (action === "signup") {
-      const user = createUser(body.email, body.name, body.password, body.birthday, body.referralCode);
+      const user = createUser(body.email, body.name, body.password, body.phone, body.birthday, body.referralCode);
 
       // Send verification email
       await sendVerificationEmail(body.email, body.name, user.verifyCode);
