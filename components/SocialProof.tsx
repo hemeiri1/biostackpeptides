@@ -48,7 +48,7 @@ export default function SocialProof() {
 
   return (
     <div
-      className={`fixed bottom-6 left-6 z-40 max-w-xs transition-all duration-500 ${
+      className={`fixed bottom-24 left-6 z-40 max-w-xs transition-all duration-500 ${
         show ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
       }`}
     >

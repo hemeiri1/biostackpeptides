@@ -12,6 +12,7 @@ import SocialProof from "@/components/SocialProof";
 import BackToTop from "@/components/BackToTop";
 import CookieConsent from "@/components/CookieConsent";
 import NewsletterSection from "@/components/NewsletterSection";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "BioStackPeptides — Premium Research Peptides",
@@ -50,6 +51,7 @@ export default function RootLayout({
               <Footer />
               <ChatWidget />
               <SocialProof />
+              <WhatsAppButton />
               <BackToTop />
               <CookieConsent />
               <TrackingPixel />
