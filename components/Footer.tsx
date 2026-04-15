@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-4">
-              <img src="/logo.jpg" alt="BioStack Peptides" className="h-10 w-auto" />
+              <img src="/logo.jpg" alt="BioStack Peptides" className="h-20 w-auto" />
             </Link>
             <p className="text-brand-muted text-sm leading-relaxed max-w-sm">
               Premium research peptides for scientific and research purposes. All
