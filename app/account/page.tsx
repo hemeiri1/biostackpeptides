@@ -46,7 +46,19 @@ export default function AccountPage() {
       return;
     }
 
-    setUser(JSON.parse(saved));
+    const parsed = JSON.parse(saved);
+    // Fill defaults for old user data missing new fields
+    setUser({
+      totalSpent: 0,
+      monthlySpent: 0,
+      tier: "Bronze",
+      referralCode: "",
+      referredBy: "",
+      birthday: "",
+      lastOrderDate: "",
+      reviewCount: 0,
+      ...parsed,
+    });
     setLoading(false);
   }, [router]);
 
@@ -79,7 +91,7 @@ export default function AccountPage() {
     );
   }
 
-  const tierInfo = TIER_CONFIG[user.tier];
+  const tierInfo = TIER_CONFIG[user.tier] || TIER_CONFIG.Bronze;
   const nextMilestone = Math.ceil((user.orderCount || 1) / 5) * 5;
   const ordersToBonus = nextMilestone - user.orderCount;
   const progressPercent = ((user.orderCount % 5) / 5) * 100;

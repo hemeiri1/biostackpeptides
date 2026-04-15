@@ -27,7 +27,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (typeof window === "undefined") return [];
     try {
       const saved = localStorage.getItem("biostack-cart");
-      return saved ? JSON.parse(saved) : [];
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      // Ensure old cart items have sizePrice
+      return parsed.map((item: any) => ({
+        ...item,
+        sizePrice: item.sizePrice || item.product?.price || 0,
+      }));
     } catch {
       return [];
     }
