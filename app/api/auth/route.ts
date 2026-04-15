@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     }
 
     if (action === "verify") {
-      verifyUser(body.email, body.code);
+      verifyUser(body.email, body.code, body.phone);
 
       // Send welcome email
       await sendWelcomeEmail(body.email, body.name || "");

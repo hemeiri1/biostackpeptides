@@ -65,16 +65,23 @@ function generateReferralCode(name: string): string {
   return `BSP-${clean}${rand}`;
 }
 
-export function createUser(email: string, name: string, password: string, phone?: string, birthday?: string, referralCode?: string): User {
-  const existing = Array.from(users.values()).find((u) => u.email === email);
-  if (existing) throw new Error("Email already registered");
+export function createUser(email: string | undefined, name: string, password: string, phone?: string, birthday?: string, referralCode?: string): User {
+  if (!email && !phone) throw new Error("Email or phone number is required");
+  if (email) {
+    const existing = Array.from(users.values()).find((u) => u.email === email);
+    if (existing) throw new Error("Email already registered");
+  }
+  if (phone) {
+    const existing = Array.from(users.values()).find((u) => u.phone === phone);
+    if (existing) throw new Error("Phone number already registered");
+  }
 
   const id = "usr_" + Math.random().toString(36).substring(2, 10);
   const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
   const user: User = {
     id,
-    email,
+    email: email || "",
     name,
     password,
     phone: phone || "",
@@ -124,8 +131,10 @@ export function loginUser(email: string | undefined, password: string, phone?: s
   return { user, token };
 }
 
-export function verifyUser(email: string, code: string): boolean {
-  const user = Array.from(users.values()).find((u) => u.email === email);
+export function verifyUser(email: string | undefined, code: string, phone?: string): boolean {
+  const user = phone
+    ? Array.from(users.values()).find((u) => u.phone === phone)
+    : Array.from(users.values()).find((u) => u.email === email);
   if (!user) throw new Error("User not found");
   if (user.verifyCode !== code) throw new Error("Invalid verification code");
 
