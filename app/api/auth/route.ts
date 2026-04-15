@@ -39,10 +39,9 @@ export async function POST(req: Request) {
 
   try {
     if (action === "signup") {
-      const user = createUser(body.email, body.name, body.password, body.phone, body.birthday, body.referralCode);
+      const user = await createUser(body.email, body.name, body.password, body.phone, body.birthday, body.referralCode);
 
       if (body.email) {
-        // Email signup: send verification code
         await sendVerificationEmail(body.email, body.name, user.verifyCode);
         return NextResponse.json({
           success: true,
@@ -51,8 +50,8 @@ export async function POST(req: Request) {
           bonusApplied: user.bonusCredit > 0 ? "AED 25 referral bonus applied!" : undefined,
         });
       } else {
-        // Phone signup: auto-verify (no SMS service)
-        user.verified = true;
+        // Phone signup: auto-verify (no SMS)
+        await verifyUser(undefined, "", body.phone, true);
         return NextResponse.json({
           success: true,
           needsVerification: false,
@@ -63,19 +62,16 @@ export async function POST(req: Request) {
     }
 
     if (action === "verify") {
-      verifyUser(body.email, body.code, body.phone);
-
-      // Send welcome email
-      await sendWelcomeEmail(body.email, body.name || "");
-
+      await verifyUser(body.email, body.code, body.phone);
+      if (body.email) {
+        await sendWelcomeEmail(body.email, body.name || "");
+      }
       return NextResponse.json({ success: true, message: "Email verified! You can now log in." });
     }
 
     if (action === "login") {
-      const { user, token } = loginUser(body.email, body.password, body.phone);
-
-      // Check birthday reward
-      const birthday = checkBirthdayReward(user.id);
+      const { user, token } = await loginUser(body.email, body.password, body.phone);
+      const birthday = await checkBirthdayReward(user.id);
 
       return NextResponse.json({
         success: true,
@@ -86,7 +82,7 @@ export async function POST(req: Request) {
     }
 
     if (action === "me") {
-      const user = getUserByToken(body.token);
+      const user = await getUserByToken(body.token);
       if (!user) return NextResponse.json({ success: false, message: "Not authenticated" });
       return NextResponse.json({
         success: true,
@@ -95,9 +91,9 @@ export async function POST(req: Request) {
     }
 
     if (action === "review") {
-      const user = getUserByToken(body.token);
+      const user = await getUserByToken(body.token);
       if (!user) return NextResponse.json({ success: false, message: "Not authenticated" });
-      const updated = addReviewPoints(user.id);
+      const updated = await addReviewPoints(user.id);
       return NextResponse.json({
         success: true,
         message: "Thanks for your review! +20 loyalty points",
@@ -106,7 +102,7 @@ export async function POST(req: Request) {
     }
 
     if (action === "check-referral") {
-      const referrer = getUserByReferralCode(body.code);
+      const referrer = await getUserByReferralCode(body.code);
       if (!referrer) return NextResponse.json({ success: false, message: "Invalid referral code" });
       return NextResponse.json({
         success: true,
@@ -115,17 +111,17 @@ export async function POST(req: Request) {
     }
 
     if (action === "set-multiplier") {
-      setPointsMultiplier(body.multiplier, body.expiresAt);
+      await setPointsMultiplier(body.multiplier, body.expiresAt);
       return NextResponse.json({ success: true, message: `Points multiplier set to ${body.multiplier}x` });
     }
 
     if (action === "get-multiplier") {
-      const { multiplier, expiresAt } = getPointsMultiplier();
+      const { multiplier, expiresAt } = await getPointsMultiplier();
       return NextResponse.json({ success: true, multiplier, expiresAt });
     }
 
     if (action === "logout") {
-      logout(body.token);
+      await logout(body.token);
       return NextResponse.json({ success: true });
     }
 
