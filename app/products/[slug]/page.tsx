@@ -14,6 +14,7 @@ import {
 import { getProductBySlug, products } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useToast } from "@/components/Toast";
 import ProductCard from "@/components/ProductCard";
 import VialImage from "@/components/VialImage";
 
@@ -24,6 +25,7 @@ export default function ProductDetailPage() {
 
   const { addToCart } = useCart();
   const { format } = useCurrency();
+  const { showToast } = useToast();
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -34,6 +36,7 @@ export default function ProductDetailPage() {
 
   function handleAddToCart() {
     addToCart(product!, currentSize!.label);
+    showToast(`${product!.shortName} (${currentSize!.label}) added to cart!`);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }

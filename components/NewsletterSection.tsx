@@ -10,8 +10,11 @@ export default function NewsletterSection() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email) return;
-    // Store subscriber (console for now, will connect to email service later)
-    console.log("Newsletter subscriber:", email);
+    fetch("/api/newsletter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    }).catch(() => {});
     setSubscribed(true);
     setEmail("");
   }
