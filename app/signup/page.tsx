@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { UserPlus, Mail, Lock, User, ArrowRight, CheckCircle, Calendar, Users } from "lucide-react";
 
@@ -10,8 +11,18 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState("");
+  const searchParams = useSearchParams();
   const [referralCode, setReferralCode] = useState("");
   const [referralMsg, setReferralMsg] = useState("");
+
+  // Auto-fill referral code from URL (?ref=BSP-XXXX)
+  useEffect(() => {
+    const ref = searchParams.get("ref");
+    if (ref) {
+      setReferralCode(ref.toUpperCase());
+      checkReferral(ref.toUpperCase());
+    }
+  }, [searchParams]);
   const [inputCode, setInputCode] = useState("");
   const [error, setError] = useState("");
   const [bonusMsg, setBonusMsg] = useState("");

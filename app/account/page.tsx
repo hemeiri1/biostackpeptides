@@ -78,7 +78,8 @@ export default function AccountPage() {
 
   function copyReferral() {
     if (!user) return;
-    navigator.clipboard.writeText(user.referralCode);
+    const link = `https://biostackpeptide.com/signup?ref=${user.referralCode}`;
+    navigator.clipboard.writeText(link);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -262,7 +263,7 @@ export default function AccountPage() {
         <p className="text-brand-muted text-sm mb-3">
           Share your referral code. When a friend signs up with it, you both get <strong>AED 25 bonus credit</strong>.
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-2">
           <div className="flex-1 px-4 py-3 bg-white rounded-xl border border-green-200 font-mono text-sm text-gray-900 font-bold tracking-wide">
             {user.referralCode}
           </div>
@@ -270,9 +271,12 @@ export default function AccountPage() {
             onClick={copyReferral}
             className="px-4 py-3 rounded-xl bg-green-600 text-white font-medium text-sm hover:bg-green-700 transition-colors flex items-center gap-2"
           >
-            {copied ? <><Check className="w-4 h-4" /> Copied</> : <><Copy className="w-4 h-4" /> Copy</>}
+            {copied ? <><Check className="w-4 h-4" /> Copied</> : <><Copy className="w-4 h-4" /> Copy Link</>}
           </button>
         </div>
+        <p className="text-green-700 text-xs">
+          Copies your personal signup link: biostackpeptide.com/signup?ref={user.referralCode}
+        </p>
       </div>
 
       {/* How Points Work */}
