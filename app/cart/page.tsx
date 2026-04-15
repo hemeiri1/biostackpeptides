@@ -318,6 +318,20 @@ export default function CartPage() {
                   });
                   const data = await res.json();
                   if (data.success && data.url) {
+                    // Save order data for the success page to submit after payment
+                    localStorage.setItem("biostack-pending-order", JSON.stringify({
+                      items: items.map((i) => ({
+                        name: i.product.name,
+                        size: i.size,
+                        quantity: i.quantity,
+                        price: getLivePrice(i),
+                      })),
+                      total: finalPrice,
+                      discountPercent,
+                      customerName,
+                      customerPhone,
+                      customerEmail,
+                    }));
                     window.location.href = data.url;
                   } else {
                     alert(data.message || "Checkout failed. Please try again.");

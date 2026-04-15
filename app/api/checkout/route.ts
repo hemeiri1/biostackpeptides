@@ -39,21 +39,7 @@ export async function POST(req: Request) {
     const data = await res.json();
 
     if (data.redirect_url) {
-      // Save order to Redis
-      await fetch("https://biostackpeptide.com/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items,
-          total,
-          discountPercent,
-          customerName: customerName || "Guest",
-          customerEmail: customerEmail || "",
-          customerPhone: customerPhone || "",
-          paymentMethod: "ziina",
-          paymentId: data.id || "",
-        }),
-      }).catch(() => {});
+      // Don't save order here — save it on the success page after payment is confirmed
 
       // Send order notification email to you
       const itemRows = items

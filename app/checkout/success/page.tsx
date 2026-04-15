@@ -1,14 +1,40 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CheckCircle, ArrowRight, Package } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 
 export default function CheckoutSuccessPage() {
   const { clearCart } = useCart();
+  const [orderId, setOrderId] = useState("");
 
   useEffect(() => {
+    // Get pending order from localStorage (saved before Ziina redirect)
+    const pending = localStorage.getItem("biostack-pending-order");
+    if (pending) {
+      const order = JSON.parse(pending);
+
+      // Save the order to the database now that payment is confirmed
+      fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...order,
+          paymentMethod: "ziina",
+          status: "confirmed",
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.orderId) setOrderId(data.orderId);
+        })
+        .catch(() => {});
+
+      // Clean up
+      localStorage.removeItem("biostack-pending-order");
+    }
+
     clearCart();
   }, [clearCart]);
 
@@ -19,7 +45,10 @@ export default function CheckoutSuccessPage() {
           <CheckCircle className="w-10 h-10 text-green-600" />
         </div>
 
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">Order Confirmed!</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-3">Payment Successful!</h1>
+        {orderId && (
+          <p className="text-brand-cyan font-mono font-bold text-sm mb-2">Order {orderId}</p>
+        )}
         <p className="text-brand-muted mb-8">
           Thank you for your purchase. You&apos;ll receive a confirmation email with your order details and tracking information shortly.
         </p>
