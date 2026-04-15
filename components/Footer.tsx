@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Mail, Phone } from "lucide-react";
+import { Instagram, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -27,12 +27,6 @@ export default function Footer() {
                 className="w-9 h-9 rounded border border-brand-border flex items-center justify-center text-brand-muted hover:text-brand-cyan hover:border-brand-cyan transition-colors"
               >
                 <Mail className="w-4 h-4" />
-              </a>
-              <a
-                href="tel:+18723661398"
-                className="w-9 h-9 rounded border border-brand-border flex items-center justify-center text-brand-muted hover:text-brand-cyan hover:border-brand-cyan transition-colors"
-              >
-                <Phone className="w-4 h-4" />
               </a>
             </div>
           </div>
