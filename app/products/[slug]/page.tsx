@@ -55,8 +55,8 @@ export default function ProductDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
         {/* Image */}
-        <div className="relative bg-gradient-to-br from-blue-50 to-white rounded-2xl border border-brand-border h-96 lg:h-auto flex items-center justify-center">
-          <VialImage name={product.shortName} size="" slug={product.slug} className="h-80" />
+        <div className="relative bg-gradient-to-b from-slate-50 via-white to-slate-50/50 rounded-2xl border border-brand-border h-96 lg:h-[500px] flex items-center justify-center p-8">
+          <VialImage name={product.shortName} size="" slug={product.slug} className="h-96" />
           {product.badge && (
             <span className="absolute top-4 left-4 text-sm font-bold px-3 py-1 rounded-lg bg-brand-cyan text-brand-darker">
               {product.badge}

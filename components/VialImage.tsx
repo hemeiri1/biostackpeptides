@@ -35,12 +35,18 @@ export default function VialImage({ name, size, slug, className = "" }: VialImag
 
   return (
     <div className={`relative flex items-center justify-center overflow-hidden ${className}`}>
+      {/* Subtle glow behind vial */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-24 h-24 bg-brand-cyan/5 rounded-full blur-2xl" />
+      </div>
       <img
         src={imageSrc}
         alt={`${name} ${size}`}
-        className="w-full h-full object-contain select-none"
+        className="w-full h-full object-contain select-none drop-shadow-lg relative z-10"
         draggable={false}
       />
+      {/* Reflection/shadow under vial */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/5 h-3 bg-black/5 rounded-full blur-md z-0" />
     </div>
   );
 }

@@ -34,9 +34,9 @@ export default function ProductCard({ product }: { product: Product }) {
     <Link href={`/products/${product.slug}`} className="group block">
       <div className="bg-white border border-brand-border rounded-xl overflow-hidden hover:border-brand-cyan/40 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,102,255,0.08)] h-full flex flex-col">
         {/* Image area */}
-        <div className="relative bg-gradient-to-br from-blue-50 to-white h-48 flex items-center justify-center overflow-hidden">
-          <div className="group-hover:scale-105 transition-transform duration-300">
-            <VialImage name={product.shortName} size="" slug={product.slug} className="h-44" />
+        <div className="relative bg-gradient-to-b from-slate-50 via-white to-slate-50/50 h-56 flex items-center justify-center overflow-hidden p-4">
+          <div className="group-hover:scale-110 transition-transform duration-500 ease-out">
+            <VialImage name={product.shortName} size="" slug={product.slug} className="h-48" />
           </div>
           {product.badge && (
             <span className="absolute top-3 left-3 text-xs font-bold px-2 py-1 rounded bg-brand-cyan text-white">
