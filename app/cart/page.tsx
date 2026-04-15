@@ -15,6 +15,7 @@ export default function CartPage() {
   const [discountMsg, setDiscountMsg] = useState("");
   const [discountError, setDiscountError] = useState("");
   const [applyingCode, setApplyingCode] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
 
   const discountAmount = totalPrice * (discountPercent / 100);
   const finalPrice = totalPrice - discountAmount;
@@ -238,15 +239,44 @@ export default function CartPage() {
             </div>
 
             <button
-              className="w-full py-3 rounded-xl bg-brand-cyan text-white font-semibold hover:bg-brand-cyan/90 transition-colors flex items-center justify-center gap-2"
-              onClick={() => alert("Stripe checkout coming soon!")}
+              className="w-full py-3 rounded-xl bg-brand-cyan text-white font-semibold hover:bg-brand-cyan/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+              disabled={checkingOut}
+              onClick={async () => {
+                setCheckingOut(true);
+                try {
+                  const res = await fetch("/api/checkout", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      items: items.map((i) => ({
+                        name: i.product.name,
+                        size: i.size,
+                        quantity: i.quantity,
+                        price: i.sizePrice,
+                      })),
+                      total: finalPrice,
+                      discountPercent,
+                    }),
+                  });
+                  const data = await res.json();
+                  if (data.success && data.url) {
+                    window.location.href = data.url;
+                  } else {
+                    alert(data.message || "Checkout failed. Please try again.");
+                    setCheckingOut(false);
+                  }
+                } catch {
+                  alert("Something went wrong. Please try again.");
+                  setCheckingOut(false);
+                }
+              }}
             >
-              Proceed to Checkout
-              <ArrowRight className="w-4 h-4" />
+              {checkingOut ? "Redirecting to payment..." : "Proceed to Checkout"}
+              {!checkingOut && <ArrowRight className="w-4 h-4" />}
             </button>
 
             <p className="text-center text-brand-muted text-xs mt-4">
-              Secure checkout powered by Stripe
+              Secure checkout powered by Ziina
             </p>
           </div>
 
