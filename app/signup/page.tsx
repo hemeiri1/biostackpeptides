@@ -1,11 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { UserPlus, Mail, Lock, User, ArrowRight, CheckCircle, Calendar, Users, Phone } from "lucide-react";
 
 export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[80vh] flex items-center justify-center"><div className="animate-spin w-6 h-6 border-2 border-brand-cyan border-t-transparent rounded-full" /></div>}>
+      <SignupContent />
+    </Suspense>
+  );
+}
+
+function SignupContent() {
   const [step, setStep] = useState<"signup" | "verify" | "done">("signup");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
