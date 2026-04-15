@@ -9,7 +9,7 @@ const names = [
 ];
 
 const cities = [
-  "Dubai", "Abu Dhabi", "Sharjah", "Riyadh", "Doha", "Kuwait City", "Muscat", "Ajman", "Jeddah", "Bahrain",
+  "Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Al Ain", "Ras Al Khaimah", "Fujairah", "Umm Al Quwain",
 ];
 
 const productNames = [
