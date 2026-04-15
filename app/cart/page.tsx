@@ -9,7 +9,7 @@ import { useProducts } from "@/lib/useProducts";
 import { products } from "@/data/products";
 
 export default function CartPage() {
-  const { items, addToCart, removeFromCart, updateQuantity, totalItems, liveTotalPrice } = useCart();
+  const { items, addToCart, removeFromCart, updateQuantity, totalItems } = useCart();
   const { format } = useCurrency();
   const { getProductSizes } = useProducts();
 
