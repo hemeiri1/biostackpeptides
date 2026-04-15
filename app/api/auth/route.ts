@@ -41,14 +41,25 @@ export async function POST(req: Request) {
     if (action === "signup") {
       const user = createUser(body.email, body.name, body.password, body.phone, body.birthday, body.referralCode);
 
-      // Send verification email
-      await sendVerificationEmail(body.email, body.name, user.verifyCode);
-
-      return NextResponse.json({
-        success: true,
-        message: "Account created! Check your email for the verification code.",
-        bonusApplied: user.bonusCredit > 0 ? "AED 25 referral bonus applied!" : undefined,
-      });
+      if (body.email) {
+        // Email signup: send verification code
+        await sendVerificationEmail(body.email, body.name, user.verifyCode);
+        return NextResponse.json({
+          success: true,
+          needsVerification: true,
+          message: "Account created! Check your email for the verification code.",
+          bonusApplied: user.bonusCredit > 0 ? "AED 25 referral bonus applied!" : undefined,
+        });
+      } else {
+        // Phone signup: auto-verify (no SMS service)
+        user.verified = true;
+        return NextResponse.json({
+          success: true,
+          needsVerification: false,
+          message: "Account created! You can now log in.",
+          bonusApplied: user.bonusCredit > 0 ? "AED 25 referral bonus applied!" : undefined,
+        });
+      }
     }
 
     if (action === "verify") {

@@ -72,7 +72,7 @@ function SignupContent() {
       const data = await res.json();
       if (data.success) {
         setBonusMsg(data.bonusApplied || "");
-        setStep("verify");
+        setStep(data.needsVerification ? "verify" : "done");
       } else {
         setError(data.message);
       }
