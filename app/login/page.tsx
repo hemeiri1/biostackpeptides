@@ -26,6 +26,9 @@ export default function LoginPage() {
       if (data.success) {
         localStorage.setItem("biostack_token", data.token);
         localStorage.setItem("biostack_user", JSON.stringify(data.user));
+        if (data.birthdayReward) {
+          localStorage.setItem("biostack_birthday_code", data.birthdayReward);
+        }
         router.push("/account");
       } else {
         setError(data.message);

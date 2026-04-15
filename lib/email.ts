@@ -64,10 +64,16 @@ export async function sendWelcomeEmail(to: string, name: string) {
           </p>
 
           <div style="background: #f0f7ff; border: 1px solid #d0e3f5; border-radius: 12px; padding: 20px; margin: 24px 0;">
-            <p style="color: #1B3A5C; font-size: 14px; font-weight: 600; margin: 0 0 8px;">Loyalty Rewards</p>
-            <p style="color: #555; font-size: 13px; margin: 0; line-height: 1.5;">
-              Earn 10 points per order. Every 5 orders = AED 50 bonus credit!
-            </p>
+            <p style="color: #1B3A5C; font-size: 14px; font-weight: 600; margin: 0 0 12px;">Loyalty Rewards Program</p>
+            <table style="width: 100%; font-size: 13px; color: #555;">
+              <tr><td style="padding: 4px 0;">Earn points</td><td style="text-align: right; font-weight: 600; color: #1B3A5C;">1 pt per AED 10 spent</td></tr>
+              <tr><td style="padding: 4px 0;">Stack bonus</td><td style="text-align: right; font-weight: 600; color: #1B3A5C;">+25 pts per stack</td></tr>
+              <tr><td style="padding: 4px 0;">Write a review</td><td style="text-align: right; font-weight: 600; color: #1B3A5C;">+20 pts</td></tr>
+              <tr><td style="padding: 4px 0;">Every 5 orders</td><td style="text-align: right; font-weight: 600; color: #1B3A5C;">AED 50 bonus</td></tr>
+              <tr><td style="padding: 4px 0;">Spend AED 1K/month</td><td style="text-align: right; font-weight: 600; color: #1B3A5C;">AED 75 bonus</td></tr>
+              <tr><td style="padding: 4px 0;">Refer a friend</td><td style="text-align: right; font-weight: 600; color: #1B3A5C;">AED 25 each</td></tr>
+            </table>
+            <p style="color: #5B9BD5; font-size: 12px; margin: 12px 0 0;">Climb tiers: Bronze → Silver (1.5x pts) → Gold (2x pts)</p>
           </div>
 
           <div style="text-align: center; margin: 24px 0;">

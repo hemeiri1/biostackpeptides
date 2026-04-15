@@ -2,17 +2,33 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { UserPlus, Mail, Lock, User, ArrowRight, CheckCircle } from "lucide-react";
+import { UserPlus, Mail, Lock, User, ArrowRight, CheckCircle, Calendar, Users } from "lucide-react";
 
 export default function SignupPage() {
   const [step, setStep] = useState<"signup" | "verify" | "done">("signup");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [verifyCode, setVerifyCode] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [referralCode, setReferralCode] = useState("");
+  const [referralMsg, setReferralMsg] = useState("");
   const [inputCode, setInputCode] = useState("");
   const [error, setError] = useState("");
+  const [bonusMsg, setBonusMsg] = useState("");
   const [loading, setLoading] = useState(false);
+
+  async function checkReferral(code: string) {
+    if (code.length < 6) { setReferralMsg(""); return; }
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "check-referral", code }),
+      });
+      const data = await res.json();
+      setReferralMsg(data.success ? data.message : "");
+    } catch { setReferralMsg(""); }
+  }
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
@@ -22,10 +38,11 @@ export default function SignupPage() {
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "signup", name, email, password }),
+        body: JSON.stringify({ action: "signup", name, email, password, birthday, referralCode: referralCode || undefined }),
       });
       const data = await res.json();
       if (data.success) {
+        setBonusMsg(data.bonusApplied || "");
         setStep("verify");
       } else {
         setError(data.message);
@@ -68,7 +85,7 @@ export default function SignupPage() {
                 <UserPlus className="w-7 h-7 text-brand-cyan" />
               </div>
               <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
-              <p className="text-brand-muted text-sm mt-2">Join BioStack Peptides and earn loyalty rewards</p>
+              <p className="text-brand-muted text-sm mt-2">Join BioStack Peptides and start earning rewards</p>
             </div>
 
             <form onSubmit={handleSignup} className="space-y-4">
@@ -115,6 +132,32 @@ export default function SignupPage() {
                   />
                 </div>
               </div>
+              <div>
+                <label className="text-sm font-medium text-gray-900 mb-1 block">Birthday <span className="text-brand-muted font-normal">(optional — earn a reward!)</span></label>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                  <input
+                    type="date"
+                    value={birthday}
+                    onChange={(e) => setBirthday(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-900 mb-1 block">Referral Code <span className="text-brand-muted font-normal">(optional)</span></label>
+                <div className="relative">
+                  <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                  <input
+                    type="text"
+                    value={referralCode}
+                    onChange={(e) => { setReferralCode(e.target.value.toUpperCase()); checkReferral(e.target.value.toUpperCase()); }}
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
+                    placeholder="e.g. BSP-JOHN4X2K"
+                  />
+                </div>
+                {referralMsg && <p className="text-green-600 text-xs mt-1">{referralMsg}</p>}
+              </div>
               {error && <p className="text-red-500 text-xs">{error}</p>}
               <button
                 type="submit"
@@ -142,6 +185,9 @@ export default function SignupPage() {
               <p className="text-brand-muted text-sm mt-2">
                 We sent a 6-digit code to <strong>{email}</strong>
               </p>
+              {bonusMsg && (
+                <p className="text-green-600 text-sm mt-2 font-medium">{bonusMsg}</p>
+              )}
             </div>
 
             <form onSubmit={handleVerify} className="space-y-4">
@@ -173,9 +219,29 @@ export default function SignupPage() {
             <p className="text-brand-muted text-sm mb-6">
               Welcome to BioStack Peptides. You&apos;re now part of our loyalty program.
             </p>
+
+            {/* Tier System */}
+            <div className="p-4 rounded-xl bg-brand-cyan/5 border border-brand-cyan/20 mb-4">
+              <p className="text-brand-cyan text-sm font-medium mb-2">Loyalty Tiers</p>
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <div className="p-2 rounded-lg bg-amber-50 border border-amber-200">
+                  <p className="font-bold text-amber-700">Bronze</p>
+                  <p className="text-amber-600">1x points</p>
+                </div>
+                <div className="p-2 rounded-lg bg-gray-100 border border-gray-300">
+                  <p className="font-bold text-gray-600">Silver</p>
+                  <p className="text-gray-500">1.5x points</p>
+                </div>
+                <div className="p-2 rounded-lg bg-yellow-50 border border-yellow-300">
+                  <p className="font-bold text-yellow-700">Gold</p>
+                  <p className="text-yellow-600">2x points</p>
+                </div>
+              </div>
+            </div>
+
             <div className="p-4 rounded-xl bg-brand-cyan/5 border border-brand-cyan/20 mb-6">
-              <p className="text-brand-cyan text-sm font-medium">Loyalty Rewards</p>
-              <p className="text-brand-muted text-xs mt-1">Earn 10 points per order. Every 5 orders = AED 50 bonus credit!</p>
+              <p className="text-brand-cyan text-sm font-medium">Earn Points</p>
+              <p className="text-brand-muted text-xs mt-1">1 point per AED 10 spent. Stack bonus, review rewards, referral credits & more!</p>
             </div>
             <Link
               href="/login"
