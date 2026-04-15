@@ -8,7 +8,7 @@ import { ToastProvider } from "@/components/Toast";
 import ChatWidget from "@/components/ChatWidget";
 import TrackingPixel from "@/components/TrackingPixel";
 import AnnouncementBar from "@/components/AnnouncementBar";
-import SocialProof from "@/components/SocialProof";
+import AgeGate from "@/components/AgeGate";
 import BackToTop from "@/components/BackToTop";
 import CookieConsent from "@/components/CookieConsent";
 import NewsletterSection from "@/components/NewsletterSection";
@@ -50,7 +50,7 @@ export default function RootLayout({
               <NewsletterSection />
               <Footer />
               <ChatWidget />
-              <SocialProof />
+              <AgeGate />
               <WhatsAppButton />
               <BackToTop />
               <CookieConsent />

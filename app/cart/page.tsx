@@ -30,6 +30,7 @@ export default function CartPage() {
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const discountAmount = liveTotalPrice * (discountPercent / 100);
   const finalPrice = liveTotalPrice - discountAmount;
@@ -289,9 +290,22 @@ export default function CartPage() {
               </div>
             </div>
 
+            {/* Terms checkbox */}
+            <label className="flex items-start gap-3 p-3 rounded-xl border border-brand-border bg-gray-50 cursor-pointer hover:border-brand-cyan/50 transition-colors mb-4">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded border-gray-300 text-brand-cyan focus:ring-brand-cyan"
+              />
+              <span className="text-xs text-brand-muted leading-relaxed">
+                I confirm that I am 18+ years old, I understand these products are for <strong className="text-gray-900">in-vitro research and laboratory use only</strong>, not for human consumption, and I agree to the <a href="/terms" className="text-brand-cyan hover:underline">Terms of Service</a>.
+              </span>
+            </label>
+
             <button
               className="w-full py-3 rounded-xl bg-brand-cyan text-white font-semibold hover:bg-brand-cyan/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
-              disabled={checkingOut}
+              disabled={checkingOut || !termsAccepted}
               onClick={async () => {
                 if (!customerName.trim() || !customerPhone.trim()) {
                   alert("Please enter your name and phone number.");
