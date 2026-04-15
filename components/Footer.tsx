@@ -74,6 +74,9 @@ export default function Footer() {
                 { label: "Contact", href: "/contact" },
                 { label: "Track Order", href: "/tracking" },
                 { label: "Peptide Calculator", href: "/calculator" },
+                { label: "Shipping Policy", href: "/shipping" },
+                { label: "Terms of Service", href: "/terms" },
+                { label: "Privacy Policy", href: "/privacy" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link

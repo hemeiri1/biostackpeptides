@@ -8,11 +8,13 @@ import type { Product } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useStock } from "@/lib/useStock";
+import { useToast } from "@/components/Toast";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { format } = useCurrency();
   const { isInStock } = useStock();
+  const { showToast } = useToast();
   const inStock = isInStock(product.id, product.inStock);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [added, setAdded] = useState(false);
@@ -23,6 +25,7 @@ export default function ProductCard({ product }: { product: Product }) {
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
     addToCart(product, currentSize.label);
+    showToast(`${product.shortName} (${currentSize.label}) added to cart!`);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }

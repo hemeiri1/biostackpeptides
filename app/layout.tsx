@@ -4,8 +4,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/CartContext";
 import { CurrencyProvider } from "@/lib/CurrencyContext";
+import { ToastProvider } from "@/components/Toast";
 import ChatWidget from "@/components/ChatWidget";
 import TrackingPixel from "@/components/TrackingPixel";
+import AnnouncementBar from "@/components/AnnouncementBar";
+import SocialProof from "@/components/SocialProof";
+import BackToTop from "@/components/BackToTop";
+import CookieConsent from "@/components/CookieConsent";
+import NewsletterSection from "@/components/NewsletterSection";
 
 export const metadata: Metadata = {
   title: "BioStackPeptides — Premium Research Peptides",
@@ -36,11 +42,18 @@ export default function RootLayout({
       <body className="bg-white min-h-screen">
         <CurrencyProvider>
           <CartProvider>
-            <Navbar />
-            <main className="pt-16">{children}</main>
-            <Footer />
-            <ChatWidget />
-            <TrackingPixel />
+            <ToastProvider>
+              <AnnouncementBar />
+              <Navbar />
+              <main className="pt-16">{children}</main>
+              <NewsletterSection />
+              <Footer />
+              <ChatWidget />
+              <SocialProof />
+              <BackToTop />
+              <CookieConsent />
+              <TrackingPixel />
+            </ToastProvider>
           </CartProvider>
         </CurrencyProvider>
       </body>
