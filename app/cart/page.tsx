@@ -84,9 +84,12 @@ export default function CartPage() {
               key={`${item.product.id}-${item.size}`}
               className="flex gap-4 p-5 rounded-xl border border-brand-border bg-brand-card"
             >
-              {/* Icon placeholder */}
-              <div className="w-20 h-20 rounded-lg bg-brand-dark flex items-center justify-center shrink-0">
-                <span className="text-brand-cyan text-2xl">🧪</span>
+              <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-50 shrink-0">
+                <img
+                  src={item.product.image || "/vial-base.jpg"}
+                  alt={item.product.name}
+                  className="w-full h-full object-contain"
+                />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -126,7 +129,7 @@ export default function CartPage() {
                     </button>
                   </div>
                   <span className="text-gray-900 font-semibold">
-                    {format(item.product.price * item.quantity)}
+                    {format(item.sizePrice * item.quantity)}
                   </span>
                 </div>
               </div>

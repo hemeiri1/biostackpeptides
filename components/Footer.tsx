@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FlaskConical, Instagram, Mail, Phone } from "lucide-react";
+import { Instagram, Mail, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -8,13 +8,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded bg-gradient-to-br from-brand-cyan to-brand-blue flex items-center justify-center">
-                <FlaskConical className="w-4 h-4 text-gray-900" />
-              </div>
-              <span className="text-gray-900 font-bold text-lg tracking-tight">
-                BioStack<span className="text-brand-cyan">Peptides</span>
-              </span>
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <img src="/logo.jpg" alt="BioStack Peptides" className="h-10 w-auto" />
             </Link>
             <p className="text-brand-muted text-sm leading-relaxed max-w-sm">
               Premium research peptides for scientific and research purposes. All

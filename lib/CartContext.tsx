@@ -6,6 +6,7 @@ import type { Product } from "@/data/products";
 export interface CartItem {
   product: Product;
   size: string;
+  sizePrice: number;
   quantity: number;
 }
 
@@ -25,6 +26,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
   const addToCart = useCallback((product: Product, size: string) => {
+    const sizeObj = product.sizes.find((s) => s.label === size);
+    const sizePrice = sizeObj ? sizeObj.price : product.price;
     setItems((prev) => {
       const existing = prev.find(
         (i) => i.product.id === product.id && i.size === size
@@ -36,7 +39,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             : i
         );
       }
-      return [...prev, { product, size, quantity: 1 }];
+      return [...prev, { product, size, sizePrice, quantity: 1 }];
     });
   }, []);
 
@@ -67,7 +70,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
   const totalPrice = items.reduce(
-    (sum, i) => sum + i.product.price * i.quantity,
+    (sum, i) => sum + i.sizePrice * i.quantity,
     0
   );
 

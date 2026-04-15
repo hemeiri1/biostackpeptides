@@ -13,11 +13,16 @@ export const metadata: Metadata = {
     "Premium quality research peptides. BPC-157, TB-500, Semaglutide, Tirzepatide, Epithalon and more. For research purposes only.",
   keywords: "research peptides, BPC-157, TB-500, semaglutide, tirzepatide, peptide research",
   metadataBase: new URL("https://biostackpeptide.com"),
+  icons: {
+    icon: "/logo.jpg",
+    apple: "/logo.jpg",
+  },
   openGraph: {
     title: "BioStackPeptides — Premium Research Peptides",
     description: "Premium quality research peptides for scientific research. 99%+ purity, COA on every order.",
     url: "https://biostackpeptide.com",
     siteName: "BioStackPeptides",
+    images: [{ url: "/logo.jpg", width: 512, height: 512 }],
   },
 };
 
