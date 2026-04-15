@@ -110,9 +110,11 @@ export function createUser(email: string, name: string, password: string, phone?
   return user;
 }
 
-export function loginUser(email: string, password: string): { user: User; token: string } {
-  const user = Array.from(users.values()).find((u) => u.email === email);
-  if (!user) throw new Error("No account found with this email");
+export function loginUser(email: string | undefined, password: string, phone?: string): { user: User; token: string } {
+  const user = phone
+    ? Array.from(users.values()).find((u) => u.phone === phone)
+    : Array.from(users.values()).find((u) => u.email === email);
+  if (!user) throw new Error(phone ? "No account found with this phone number" : "No account found with this email");
   if (user.password !== password) throw new Error("Incorrect password");
   if (!user.verified) throw new Error("Please verify your email first");
 

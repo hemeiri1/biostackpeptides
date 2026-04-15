@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     }
 
     if (action === "login") {
-      const { user, token } = loginUser(body.email, body.password);
+      const { user, token } = loginUser(body.email, body.password, body.phone);
 
       // Check birthday reward
       const birthday = checkBirthdayReward(user.id);
