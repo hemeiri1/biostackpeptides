@@ -22,7 +22,6 @@ export async function POST(req: Request) {
           <p style="white-space: pre-wrap;">${message}</p>
         </div>
       `,
-      reply_to: email,
     });
 
     return NextResponse.json({ success: true });
