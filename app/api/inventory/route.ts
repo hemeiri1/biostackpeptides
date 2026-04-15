@@ -1,36 +1,28 @@
 import { NextResponse } from "next/server";
 
-let kv: any = null;
+const UPSTASH_URL = "https://devoted-gorilla-69499.upstash.io";
+const UPSTASH_TOKEN = "gQAAAAAAAQ97AAIncDE2Y2VlODA1ZDJhOWQ0MGQ2Yjg0NWIzMWQyNmQzYjE5YXAxNjk0OTk";
 
-async function getKV() {
-  if (kv) return kv;
+async function redisGet(key: string): Promise<string | null> {
   try {
-    const mod = await import("@vercel/kv");
-    kv = mod.kv;
-    return kv;
+    const res = await fetch(`${UPSTASH_URL}/get/${key}`, {
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+      cache: "no-store",
+    });
+    const data = await res.json();
+    return data.result;
   } catch {
     return null;
   }
 }
 
-// Fallback in-memory store
-const memoryStock: Map<string, boolean> = new Map();
-
-async function getStock(productId: string): Promise<boolean | null> {
-  const store = await getKV();
-  if (store) {
-    const val = await store.get(`stock:${productId}`);
-    return val !== null ? val as boolean : null;
-  }
-  return memoryStock.has(productId) ? memoryStock.get(productId)! : null;
-}
-
-async function setStock(productId: string, inStock: boolean) {
-  const store = await getKV();
-  if (store) {
-    await store.set(`stock:${productId}`, inStock);
-  } else {
-    memoryStock.set(productId, inStock);
+async function redisSet(key: string, value: string) {
+  try {
+    await fetch(`${UPSTASH_URL}/set/${key}/${value}`, {
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+    });
+  } catch {
+    console.error("Redis set failed for", key);
   }
 }
 
@@ -40,12 +32,12 @@ export async function GET() {
 
   const productList = await Promise.all(
     products.map(async (p) => {
-      const stockOverride = await getStock(p.id);
+      const stockOverride = await redisGet(`stock:${p.id}`);
       return {
         id: p.id,
         slug: p.slug,
         name: p.name,
-        inStock: stockOverride !== null ? stockOverride : p.inStock,
+        inStock: stockOverride !== null ? stockOverride === "true" : p.inStock,
         salesCount: p.salesCount,
       };
     })
@@ -58,7 +50,9 @@ export async function GET() {
 export async function POST(req: Request) {
   const updates: { id: string; inStock: boolean }[] = await req.json();
 
-  await Promise.all(updates.map((item) => setStock(item.id, item.inStock)));
+  await Promise.all(
+    updates.map((item) => redisSet(`stock:${item.id}`, String(item.inStock)))
+  );
 
   return NextResponse.json({ success: true, updated: updates.length });
 }
