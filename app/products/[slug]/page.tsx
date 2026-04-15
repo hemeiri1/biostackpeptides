@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -29,10 +29,23 @@ export default function ProductDetailPage() {
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [liveSizes, setLiveSizes] = useState<{ label: string; price: number }[] | null>(null);
+
+  useEffect(() => {
+    if (!product) return;
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data: any[]) => {
+        const match = data.find((p: any) => p.id === product.id);
+        if (match?.sizes) setLiveSizes(match.sizes);
+      })
+      .catch(() => {});
+  }, [product]);
 
   if (!product) return notFound();
 
-  const currentSize = product?.sizes[selectedSizeIdx];
+  const sizes = liveSizes || product.sizes;
+  const currentSize = sizes[selectedSizeIdx];
 
   function handleAddToCart() {
     addToCart(product!, currentSize!.label);

@@ -1,36 +1,43 @@
 import { NextResponse } from "next/server";
-import { readFileSync, writeFileSync } from "fs";
-import { join } from "path";
 
-const OVERRIDES_FILE = join(process.cwd(), "data", "product-overrides.json");
+const UPSTASH_URL = "https://devoted-gorilla-69499.upstash.io";
+const UPSTASH_TOKEN = "gQAAAAAAAQ97AAIncDE2Y2VlODA1ZDJhOWQ0MGQ2Yjg0NWIzMWQyNmQzYjE5YXAxNjk0OTk";
 
-function getOverrides(): Record<string, { name?: string; sizes?: { label: string; price: number }[] }> {
+async function redisGet(key: string): Promise<string | null> {
   try {
-    const data = readFileSync(OVERRIDES_FILE, "utf-8");
-    return JSON.parse(data);
+    const res = await fetch(`${UPSTASH_URL}/get/${key}`, {
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+      cache: "no-store",
+    });
+    const data = await res.json();
+    return data.result;
   } catch {
-    return {};
+    return null;
   }
 }
 
-function saveOverrides(overrides: Record<string, { name?: string; sizes?: { label: string; price: number }[] }>) {
-  writeFileSync(OVERRIDES_FILE, JSON.stringify(overrides, null, 2));
+async function redisSet(key: string, value: string) {
+  await fetch(`${UPSTASH_URL}/set/${key}/${encodeURIComponent(value)}`, {
+    headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+  });
 }
 
 export async function GET() {
   const { products } = await import("@/data/products");
-  const overrides = getOverrides();
 
-  const productList = products.map((p) => {
-    const override = overrides[p.id];
-    return {
-      id: p.id,
-      slug: p.slug,
-      name: override?.name || p.name,
-      price: override?.sizes ? override.sizes[0].price : p.price,
-      sizes: override?.sizes || p.sizes,
-    };
-  });
+  const productList = await Promise.all(
+    products.map(async (p) => {
+      const override = await redisGet(`product:${p.id}`);
+      const parsed = override ? JSON.parse(override) : null;
+      return {
+        id: p.id,
+        slug: p.slug,
+        name: parsed?.name || p.name,
+        price: parsed?.sizes ? parsed.sizes[0].price : p.price,
+        sizes: parsed?.sizes || p.sizes,
+      };
+    })
+  );
 
   return NextResponse.json(productList);
 }
@@ -38,9 +45,7 @@ export async function GET() {
 export async function POST(req: Request) {
   const { id, name, sizes } = await req.json();
 
-  const overrides = getOverrides();
-  overrides[id] = { name, sizes };
-  saveOverrides(overrides);
+  await redisSet(`product:${id}`, JSON.stringify({ name, sizes }));
 
   return NextResponse.json({ success: true });
 }

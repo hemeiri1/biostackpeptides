@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets, Tag, Check } from "lucide-react";
+import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets, Tag, Check, User, Phone, Mail } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { products } from "@/data/products";
@@ -16,6 +16,9 @@ export default function CartPage() {
   const [discountError, setDiscountError] = useState("");
   const [applyingCode, setApplyingCode] = useState(false);
   const [checkingOut, setCheckingOut] = useState(false);
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
 
   const discountAmount = totalPrice * (discountPercent / 100);
   const finalPrice = totalPrice - discountAmount;
@@ -238,10 +241,51 @@ export default function CartPage() {
               </div>
             </div>
 
+            {/* Customer Info */}
+            <div className="space-y-3 mb-6">
+              <p className="text-xs font-medium text-brand-muted">Your Details</p>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="Full Name"
+                  required
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-brand-border rounded-xl text-sm text-gray-900 focus:outline-none focus:border-brand-cyan/50"
+                />
+              </div>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                <input
+                  type="tel"
+                  value={customerPhone}
+                  onChange={(e) => setCustomerPhone(e.target.value)}
+                  placeholder="Phone Number (required)"
+                  required
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-brand-border rounded-xl text-sm text-gray-900 focus:outline-none focus:border-brand-cyan/50"
+                />
+              </div>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                <input
+                  type="email"
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                  placeholder="Email (optional)"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-brand-border rounded-xl text-sm text-gray-900 focus:outline-none focus:border-brand-cyan/50"
+                />
+              </div>
+            </div>
+
             <button
               className="w-full py-3 rounded-xl bg-brand-cyan text-white font-semibold hover:bg-brand-cyan/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
               disabled={checkingOut}
               onClick={async () => {
+                if (!customerName.trim() || !customerPhone.trim()) {
+                  alert("Please enter your name and phone number.");
+                  return;
+                }
                 setCheckingOut(true);
                 try {
                   const res = await fetch("/api/checkout", {
@@ -256,6 +300,9 @@ export default function CartPage() {
                       })),
                       total: finalPrice,
                       discountPercent,
+                      customerName,
+                      customerPhone,
+                      customerEmail,
                     }),
                   });
                   const data = await res.json();
