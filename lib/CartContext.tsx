@@ -23,25 +23,38 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    if (typeof window === "undefined") return [];
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  // Load cart from localStorage after mount (avoids hydration mismatch)
+  useEffect(() => {
     try {
       const saved = localStorage.getItem("biostack-cart");
-      if (!saved) return [];
-      const parsed = JSON.parse(saved);
-      // Ensure old cart items have sizePrice
-      return parsed.map((item: any) => ({
-        ...item,
-        sizePrice: item.sizePrice || item.product?.price || 0,
-      }));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setItems(
+            parsed.map((item: any) => ({
+              ...item,
+              sizePrice: item.sizePrice || item.product?.price || 0,
+              quantity: item.quantity || 1,
+            }))
+          );
+        }
+      }
     } catch {
-      return [];
+      // Corrupted data — start fresh
+      localStorage.removeItem("biostack-cart");
     }
-  });
+    setLoaded(true);
+  }, []);
 
+  // Save cart to localStorage on change (only after initial load)
   useEffect(() => {
-    localStorage.setItem("biostack-cart", JSON.stringify(items));
-  }, [items]);
+    if (loaded) {
+      localStorage.setItem("biostack-cart", JSON.stringify(items));
+    }
+  }, [items, loaded]);
 
   const addToCart = useCallback((product: Product, size: string) => {
     const sizeObj = product.sizes.find((s) => s.label === size);
@@ -88,7 +101,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
   const totalPrice = items.reduce(
-    (sum, i) => sum + i.sizePrice * i.quantity,
+    (sum, i) => sum + (i.sizePrice || 0) * i.quantity,
     0
   );
 
