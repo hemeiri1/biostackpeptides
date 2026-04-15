@@ -5,11 +5,22 @@ import Link from "next/link";
 import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets, Tag, Check, User, Phone, Mail } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useProducts } from "@/lib/useProducts";
 import { products } from "@/data/products";
 
 export default function CartPage() {
-  const { items, addToCart, removeFromCart, updateQuantity, totalItems, totalPrice } = useCart();
+  const { items, addToCart, removeFromCart, updateQuantity, totalItems, liveTotalPrice } = useCart();
   const { format } = useCurrency();
+  const { getProductSizes } = useProducts();
+
+  // Get live prices for cart items
+  function getLivePrice(item: any) {
+    const liveSizes = getProductSizes(item.product.id, item.product.sizes);
+    const match = liveSizes.find((s: any) => s.label === item.size);
+    return match ? match.price : item.sizePrice;
+  }
+
+  const liveTotalPrice = items.reduce((sum, i) => sum + getLivePrice(i) * i.quantity, 0);
   const [discountCode, setDiscountCode] = useState("");
   const [discountPercent, setDiscountPercent] = useState(0);
   const [discountMsg, setDiscountMsg] = useState("");
@@ -20,8 +31,8 @@ export default function CartPage() {
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
 
-  const discountAmount = totalPrice * (discountPercent / 100);
-  const finalPrice = totalPrice - discountAmount;
+  const discountAmount = liveTotalPrice * (discountPercent / 100);
+  const finalPrice = liveTotalPrice - discountAmount;
 
   async function applyDiscount() {
     if (!discountCode.trim()) return;
@@ -133,7 +144,7 @@ export default function CartPage() {
                     </button>
                   </div>
                   <span className="text-gray-900 font-semibold">
-                    {format(item.sizePrice * item.quantity)}
+                    {format(getLivePrice(item) * item.quantity)}
                   </span>
                 </div>
               </div>
@@ -188,7 +199,7 @@ export default function CartPage() {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Subtotal</span>
-                <span className="text-gray-900">{format(totalPrice)}</span>
+                <span className="text-gray-900">{format(liveTotalPrice)}</span>
               </div>
               {discountPercent > 0 && (
                 <div className="flex justify-between text-sm">
@@ -200,36 +211,36 @@ export default function CartPage() {
               )}
               <div className="flex justify-between text-sm">
                 <span className="text-brand-muted">Shipping</span>
-                {totalPrice >= 300 ? (
+                {liveTotalPrice >= 300 ? (
                   <span className="text-green-600 font-medium">FREE</span>
                 ) : (
-                  <span className="text-brand-muted">AED {(300 - totalPrice).toFixed(0)} more for free shipping</span>
+                  <span className="text-brand-muted">AED {(300 - liveTotalPrice).toFixed(0)} more for free shipping</span>
                 )}
               </div>
             </div>
 
             {/* Free shipping / BAC water offers */}
             <div className="space-y-2 mb-6">
-              {totalPrice >= 300 && (
+              {liveTotalPrice >= 300 && (
                 <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-50 border border-green-200">
                   <Check className="w-4 h-4 text-green-600 shrink-0" />
                   <p className="text-green-700 text-xs font-medium">Free shipping applied!</p>
                 </div>
               )}
-              {totalPrice >= 500 && !items.some((i) => i.product.slug === "bac-water" && i.product.price === 0) && (
+              {liveTotalPrice >= 500 && !items.some((i) => i.product.slug === "bac-water" && i.product.price === 0) && (
                 <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-50 border border-green-200">
                   <Droplets className="w-4 h-4 text-green-600 shrink-0" />
                   <p className="text-green-700 text-xs font-medium">Free 3ml BAC Water included with your order!</p>
                 </div>
               )}
-              {totalPrice < 300 && (
+              {liveTotalPrice < 300 && (
                 <div className="px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">
-                  <p className="text-blue-700 text-xs">Spend <strong>AED {(300 - totalPrice).toFixed(0)}</strong> more for <strong>free shipping</strong></p>
+                  <p className="text-blue-700 text-xs">Spend <strong>AED {(300 - liveTotalPrice).toFixed(0)}</strong> more for <strong>free shipping</strong></p>
                 </div>
               )}
-              {totalPrice >= 300 && totalPrice < 500 && (
+              {liveTotalPrice >= 300 && liveTotalPrice < 500 && (
                 <div className="px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">
-                  <p className="text-blue-700 text-xs">Spend <strong>AED {(500 - totalPrice).toFixed(0)}</strong> more for a <strong>free 3ml BAC Water</strong></p>
+                  <p className="text-blue-700 text-xs">Spend <strong>AED {(500 - liveTotalPrice).toFixed(0)}</strong> more for a <strong>free 3ml BAC Water</strong></p>
                 </div>
               )}
             </div>
