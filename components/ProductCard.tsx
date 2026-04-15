@@ -8,18 +8,22 @@ import type { Product } from "@/data/products";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useStock } from "@/lib/useStock";
+import { useProducts } from "@/lib/useProducts";
 import { useToast } from "@/components/Toast";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { format } = useCurrency();
   const { isInStock } = useStock();
+  const { getProductSizes, getProductName } = useProducts();
   const { showToast } = useToast();
   const inStock = isInStock(product.id, product.inStock);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [added, setAdded] = useState(false);
 
-  const currentSize = product.sizes[selectedSizeIdx];
+  const liveSizes = getProductSizes(product.id, product.sizes);
+  const liveName = getProductName(product.id, product.name);
+  const currentSize = liveSizes[selectedSizeIdx];
   const currentPrice = currentSize.price;
 
   function handleAddToCart(e: React.MouseEvent) {
@@ -60,16 +64,16 @@ export default function ProductCard({ product }: { product: Product }) {
             <span className="text-xs text-brand-cyan font-medium">{product.category}</span>
           </div>
           <h3 className="text-gray-900 font-semibold text-base mb-2 group-hover:text-brand-cyan transition-colors">
-            {product.name}
+            {liveName}
           </h3>
           <p className="text-brand-muted text-sm leading-relaxed flex-1 mb-4">
             {product.description}
           </p>
 
           {/* Size selector */}
-          {product.sizes.length > 1 && (
+          {liveSizes.length > 1 && (
             <div className="flex gap-2 mb-4" onClick={(e) => e.preventDefault()}>
-              {product.sizes.map((size, idx) => (
+              {liveSizes.map((size, idx) => (
                 <button
                   key={size.label}
                   onClick={(e) => {
