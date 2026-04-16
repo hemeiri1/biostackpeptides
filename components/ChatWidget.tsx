@@ -261,13 +261,6 @@ export default function ChatWidget() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => setLang(lang === "en" ? "ar" : "en")}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg bg-white/20 text-xs hover:bg-white/30 transition-colors"
-              >
-                <Globe className="w-3 h-3" />
-                {t.langSwitch}
-              </button>
               <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-white/20 rounded transition-colors">
                 <X className="w-5 h-5" />
               </button>
