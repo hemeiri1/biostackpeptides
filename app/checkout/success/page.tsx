@@ -27,7 +27,24 @@ export default function CheckoutSuccessPage() {
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.orderId) setOrderId(data.orderId);
+          if (data.orderId) {
+            setOrderId(data.orderId);
+            // Send order confirmation email to customer
+            if (order.customerEmail) {
+              fetch("/api/order-email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  orderId: data.orderId,
+                  customerEmail: order.customerEmail,
+                  customerName: order.customerName,
+                  items: order.items,
+                  total: order.total,
+                  discountPercent: order.discountPercent || 0,
+                }),
+              }).catch(() => {});
+            }
+          }
         })
         .catch(() => {});
 
