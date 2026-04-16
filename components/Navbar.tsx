@@ -19,10 +19,10 @@ export default function Navbar() {
 
   const links = [
     { href: "/products", label: "Products" },
+    { href: "/peptides", label: "What Are Peptides?" },
     { href: "/calculator", label: "Calculator" },
     { href: "/tracking", label: "Track Order" },
     { href: "/about", label: "About" },
-    { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
   ];
 
