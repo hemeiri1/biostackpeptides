@@ -15,7 +15,6 @@ export default function SignupPage() {
 
 function SignupContent() {
   const [step, setStep] = useState<"signup" | "verify" | "done">("signup");
-  const [signupMethod, setSignupMethod] = useState<"email" | "phone">("email");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +36,8 @@ function SignupContent() {
   const [error, setError] = useState("");
   const [bonusMsg, setBonusMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   async function checkReferral(code: string) {
     if (code.length < 6) { setReferralMsg(""); return; }
@@ -62,8 +63,8 @@ function SignupContent() {
         body: JSON.stringify({
           action: "signup",
           name,
-          email: signupMethod === "email" ? email : undefined,
-          phone: signupMethod === "phone" ? phone : undefined,
+          email: email || undefined,
+          phone,
           password,
           birthday,
           referralCode: referralCode || undefined,
@@ -132,63 +133,33 @@ function SignupContent() {
                   />
                 </div>
               </div>
-              {/* Email / Phone Toggle */}
-              <div className="flex rounded-xl border border-brand-border overflow-hidden">
-                <button
-                  type="button"
-                  onClick={() => setSignupMethod("email")}
-                  className={`flex-1 py-2.5 text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
-                    signupMethod === "email"
-                      ? "bg-brand-cyan text-white"
-                      : "bg-white text-brand-muted hover:text-gray-900"
-                  }`}
-                >
-                  <Mail className="w-4 h-4" /> Email
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSignupMethod("phone")}
-                  className={`flex-1 py-2.5 text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
-                    signupMethod === "phone"
-                      ? "bg-brand-cyan text-white"
-                      : "bg-white text-brand-muted hover:text-gray-900"
-                  }`}
-                >
-                  <Phone className="w-4 h-4" /> Phone
-                </button>
+              <div>
+                <label className="text-sm font-medium text-gray-900 mb-1 block">Email <span className="text-brand-muted font-normal">(optional)</span></label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
+                    placeholder="your@email.com"
+                  />
+                </div>
               </div>
-
-              {signupMethod === "email" ? (
-                <div>
-                  <label className="text-sm font-medium text-gray-900 mb-1 block">Email</label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
-                      placeholder="your@email.com"
-                    />
-                  </div>
+              <div>
+                <label className="text-sm font-medium text-gray-900 mb-1 block">Phone Number <span className="text-red-500">*</span></label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
+                    placeholder="+971 50 123 4567"
+                  />
                 </div>
-              ) : (
-                <div>
-                  <label className="text-sm font-medium text-gray-900 mb-1 block">Phone Number</label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
-                    <input
-                      type="tel"
-                      required
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
-                      placeholder="+971 50 123 4567"
-                    />
-                  </div>
-                </div>
-              )}
+              </div>
               <div>
                 <label className="text-sm font-medium text-gray-900 mb-1 block">Password</label>
                 <div className="relative">
@@ -230,11 +201,35 @@ function SignupContent() {
                 </div>
                 {referralMsg && <p className="text-green-600 text-xs mt-1">{referralMsg}</p>}
               </div>
+              {/* Age confirmation */}
+              <label className="flex items-start gap-3 p-3 rounded-xl border border-brand-border bg-gray-50 cursor-pointer hover:border-brand-cyan/50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={ageConfirmed}
+                  onChange={(e) => setAgeConfirmed(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 rounded border-gray-300 text-brand-cyan focus:ring-brand-cyan"
+                />
+                <span className="text-xs text-brand-muted">I confirm that I am <strong className="text-gray-900">18 years of age or older</strong>.</span>
+              </label>
+
+              {/* Terms */}
+              <label className="flex items-start gap-3 p-3 rounded-xl border border-brand-border bg-gray-50 cursor-pointer hover:border-brand-cyan/50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 rounded border-gray-300 text-brand-cyan focus:ring-brand-cyan"
+                />
+                <span className="text-xs text-brand-muted">
+                  I agree to the <a href="/terms" className="text-brand-cyan hover:underline">Terms of Service</a> and understand all products are for <strong className="text-gray-900">in-vitro research and laboratory use only</strong>, not for human consumption.
+                </span>
+              </label>
+
               {error && <p className="text-red-500 text-xs">{error}</p>}
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full py-3 rounded-xl bg-brand-cyan text-white font-semibold hover:bg-brand-cyan/90 transition-colors disabled:opacity-50"
+                disabled={loading || !ageConfirmed || !termsAccepted}
+                className="w-full py-3 rounded-xl bg-brand-cyan text-white font-semibold hover:bg-brand-cyan/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Creating..." : "Create Account"}
               </button>

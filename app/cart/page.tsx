@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets, Tag, Check, User, Phone, Mail } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
@@ -31,6 +31,19 @@ export default function CartPage() {
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+  // Auto-fill from logged-in user
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("biostack_user");
+      if (saved) {
+        const user = JSON.parse(saved);
+        if (user.name && !customerName) setCustomerName(user.name);
+        if (user.phone && !customerPhone) setCustomerPhone(user.phone);
+        if (user.email && !customerEmail) setCustomerEmail(user.email);
+      }
+    } catch {}
+  }, []);
 
   const discountAmount = liveTotalPrice * (discountPercent / 100);
   const finalPrice = liveTotalPrice - discountAmount;
