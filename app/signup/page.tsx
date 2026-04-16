@@ -134,11 +134,12 @@ function SignupContent() {
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-900 mb-1 block">Email <span className="text-brand-muted font-normal">(optional)</span></label>
+                <label className="text-sm font-medium text-gray-900 mb-1 block">Email <span className="text-red-500">*</span></label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
                   <input
                     type="email"
+                    required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
