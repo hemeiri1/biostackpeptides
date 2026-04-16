@@ -75,27 +75,25 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.description}
           </p>
 
-          {/* Size selector */}
-          {liveSizes.length > 1 && (
-            <div className="flex gap-2 mb-4" onClick={(e) => e.preventDefault()}>
-              {liveSizes.map((size, idx) => (
-                <button
-                  key={size.label}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedSizeIdx(idx);
-                  }}
-                  className={`px-3 py-1 rounded text-xs font-medium border transition-colors ${
-                    selectedSizeIdx === idx
-                      ? "border-brand-cyan bg-brand-cyan/10 text-brand-cyan"
-                      : "border-brand-border text-brand-muted hover:border-brand-muted"
-                  }`}
-                >
-                  {size.label}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Size selector — always show all sizes with prices */}
+          <div className="flex flex-wrap gap-2 mb-3" onClick={(e) => e.preventDefault()}>
+            {liveSizes.map((size, idx) => (
+              <button
+                key={size.label}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSelectedSizeIdx(idx);
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                  selectedSizeIdx === idx
+                    ? "border-brand-cyan bg-brand-cyan/10 text-brand-cyan"
+                    : "border-brand-border text-brand-muted hover:border-brand-muted"
+                }`}
+              >
+                {size.label} — {format(size.price)}
+              </button>
+            ))}
+          </div>
 
           {inStock && <LowStockBadge productId={product.id} />}
 
