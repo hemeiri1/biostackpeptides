@@ -10,6 +10,8 @@ import { useCurrency } from "@/lib/CurrencyContext";
 import { useStock } from "@/lib/useStock";
 import { useProducts } from "@/lib/useProducts";
 import { useToast } from "@/components/Toast";
+import WishlistButton from "@/components/WishlistButton";
+import LowStockBadge from "@/components/LowStockBadge";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
@@ -47,10 +49,13 @@ export default function ProductCard({ product }: { product: Product }) {
               {product.badge}
             </span>
           )}
-          {/* Purity badge */}
-          <span className="absolute top-3 right-3 text-[10px] font-medium px-2 py-0.5 rounded bg-green-50 text-green-700 border border-green-200">
-            ≥99% Pure
-          </span>
+          {/* Purity badge + Wishlist */}
+          <div className="absolute top-3 right-3 flex items-center gap-1.5">
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-green-50 text-green-700 border border-green-200">
+              ≥99% Pure
+            </span>
+            <WishlistButton productId={product.id} />
+          </div>
           {!inStock && (
             <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
               <span className="text-brand-muted text-sm font-medium">Out of Stock</span>
@@ -92,8 +97,10 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
           )}
 
+          {inStock && <LowStockBadge productId={product.id} />}
+
           {/* Price + Add to cart */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-2">
             <span className="text-gray-900 font-bold text-lg">{format(currentPrice)}</span>
             <button
               onClick={handleAddToCart}

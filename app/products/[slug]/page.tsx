@@ -17,6 +17,9 @@ import { useCurrency } from "@/lib/CurrencyContext";
 import { useToast } from "@/components/Toast";
 import ProductCard from "@/components/ProductCard";
 import VialImage from "@/components/VialImage";
+import ProductReviews from "@/components/ProductReviews";
+import RecentlyViewed, { trackProductView } from "@/components/RecentlyViewed";
+import WishlistButton from "@/components/WishlistButton";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -33,6 +36,7 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     if (!product) return;
+    trackProductView(product.slug);
     fetch("/api/products")
       .then((res) => res.json())
       .then((data: any[]) => {
@@ -83,7 +87,10 @@ export default function ProductDetailPage() {
         {/* Info */}
         <div>
           <span className="text-brand-cyan text-sm font-medium">{product.category}</span>
-          <h1 className="text-4xl font-bold text-gray-900 mt-2 mb-4">{product.name}</h1>
+          <div className="flex items-start justify-between mt-2 mb-4">
+            <h1 className="text-4xl font-bold text-gray-900">{product.name}</h1>
+            <WishlistButton productId={product.id} size="lg" />
+          </div>
           <p className="text-brand-muted leading-relaxed mb-8">{product.longDescription}</p>
 
           {/* Purity badge */}
@@ -199,9 +206,12 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
+      {/* Reviews */}
+      <ProductReviews productId={product.id} />
+
       {/* Related */}
       {related.length > 0 && (
-        <div>
+        <div className="mt-16">
           <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {related.map((p) => (
@@ -210,6 +220,9 @@ export default function ProductDetailPage() {
           </div>
         </div>
       )}
+
+      {/* Recently Viewed */}
+      <RecentlyViewed currentSlug={product.slug} />
     </div>
   );
 }

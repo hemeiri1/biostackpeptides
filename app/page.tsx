@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowRight, Shield, Zap, FlaskConical, Truck, Star, ChevronRight, Award, Beaker } from "lucide-react";
 import { getFeaturedProducts, getBestSellers } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
+import CountdownBanner from "@/components/CountdownBanner";
+import RecentlyViewed from "@/components/RecentlyViewed";
 
 export default function HomePage() {
   const featured = getFeaturedProducts();
@@ -182,6 +184,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Countdown Banner */}
+      <CountdownBanner />
+
       {/* Best Sellers */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex items-end justify-between mb-10">
@@ -337,6 +342,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Recently Viewed */}
+      <RecentlyViewed />
 
       {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-20">
