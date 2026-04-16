@@ -5,7 +5,7 @@ const resend = new Resend("re_UERzjhTv_AsudSTaXQM8HFYwXn3DJ369f");
 export async function sendVerificationEmail(to: string, name: string, code: string) {
   try {
     await resend.emails.send({
-      from: "BioStack Peptides <onboarding@resend.dev>",
+      from: "BioStack Peptides <noreply@biostackpeptide.com>",
       to,
       subject: "Verify Your BioStack Account",
       html: `
@@ -48,7 +48,7 @@ export async function sendVerificationEmail(to: string, name: string, code: stri
 export async function sendWelcomeEmail(to: string, name: string) {
   try {
     await resend.emails.send({
-      from: "BioStack Peptides <onboarding@resend.dev>",
+      from: "BioStack Peptides <noreply@biostackpeptide.com>",
       to,
       subject: "Welcome to BioStack Peptides!",
       html: `
