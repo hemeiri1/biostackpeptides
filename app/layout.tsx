@@ -14,6 +14,7 @@ import CookieConsent from "@/components/CookieConsent";
 import NewsletterSection from "@/components/NewsletterSection";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ExitIntent from "@/components/ExitIntent";
+import Analytics from "@/components/Analytics";
 
 export const metadata: Metadata = {
   title: "BioStackPeptides — Premium Research Peptides",
@@ -57,6 +58,7 @@ export default function RootLayout({
               <CookieConsent />
               <ExitIntent />
               <TrackingPixel />
+              <Analytics />
             </ToastProvider>
           </CartProvider>
         </CurrencyProvider>
