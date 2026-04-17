@@ -228,6 +228,22 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: "Stock check done", outOfStock: outOfStock.length });
     }
 
+    // Run all tasks at once (for Hobby plan — one daily cron)
+    if (task === "all") {
+      const baseUrl = req.url.split("/api/cron")[0];
+      const tasks = ["new-orders", "daily-report", "follow-up", "stock-alert"];
+      const results: Record<string, any> = {};
+      for (const t of tasks) {
+        try {
+          const res = await fetch(`${baseUrl}/api/cron?task=${t}&secret=bsp-cron-2026`);
+          results[t] = await res.json();
+        } catch (e: any) {
+          results[t] = { error: e.message };
+        }
+      }
+      return NextResponse.json({ message: "All tasks completed", results });
+    }
+
     return NextResponse.json({ error: "Unknown task" }, { status: 400 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
