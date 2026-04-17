@@ -18,8 +18,10 @@ async function redisGet(key: string): Promise<string | null> {
 
 async function redisSet(key: string, value: string) {
   try {
-    await fetch(`${UPSTASH_URL}/set/${key}/${value}`, {
-      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+    await fetch(`${UPSTASH_URL}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}`, "Content-Type": "application/json" },
+      body: JSON.stringify(["SET", key, value]),
     });
   } catch {
     console.error("Redis set failed for", key);

@@ -39,7 +39,7 @@ export default function InventoryPage() {
       await fetch("/api/inventory", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(products),
+        body: JSON.stringify(products.map((p) => ({ id: p.id, inStock: p.inStock }))),
       });
       setSaved(true);
     } catch {
