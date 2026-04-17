@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { UserPlus, Mail, Lock, User, ArrowRight, CheckCircle, Calendar, Users, Phone } from "lucide-react";
+import { UserPlus, Mail, Lock, User, ArrowRight, CheckCircle, Users, Phone } from "lucide-react";
 
 export default function SignupPage() {
   return (
@@ -19,7 +19,6 @@ function SignupContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [birthday, setBirthday] = useState("");
   const searchParams = useSearchParams();
   const [referralCode, setReferralCode] = useState("");
   const [referralMsg, setReferralMsg] = useState("");
@@ -66,7 +65,6 @@ function SignupContent() {
           email: email || undefined,
           phone,
           password,
-          birthday,
           referralCode: referralCode || undefined,
         }),
       });
@@ -173,18 +171,6 @@ function SignupContent() {
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
                     placeholder="Min. 6 characters"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-gray-900 mb-1 block">Birthday <span className="text-brand-muted font-normal">(optional — earn a reward!)</span></label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
-                  <input
-                    type="date"
-                    value={birthday}
-                    onChange={(e) => setBirthday(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white border border-brand-border rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-cyan/50"
                   />
                 </div>
               </div>

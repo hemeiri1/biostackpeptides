@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
 import {
   User, Award, ShoppingBag, Star, Gift, LogOut, ArrowRight,
-  Copy, Check, Crown, Zap, Calendar, MessageSquare, TrendingUp,
+  Copy, Check, Crown, Zap, MessageSquare, TrendingUp,
 } from "lucide-react";
 
 interface UserData {
@@ -224,7 +224,7 @@ export default function AccountPage() {
         {/* Tier Benefits */}
         <div className="grid grid-cols-3 gap-2 mt-4">
           {[
-            { tier: "Bronze", perks: ["1 pt / AED 10", "Standard shipping", "Birthday reward"] },
+            { tier: "Bronze", perks: ["1 pt / AED 10", "Standard shipping", "Stack bonuses"] },
             { tier: "Silver", perks: ["1.5x points", "Free shipping", "Priority support"] },
             { tier: "Gold", perks: ["2x points", "Free shipping", "Early access"] },
           ].map((t) => (
@@ -332,9 +332,9 @@ export default function AccountPage() {
             <p className="text-brand-cyan text-xs font-bold">+20 pts</p>
           </div>
           <div className="text-center p-3 rounded-lg bg-gray-50">
-            <Calendar className="w-5 h-5 text-brand-cyan mx-auto mb-1" />
-            <p className="text-gray-900 font-medium text-xs">Birthday</p>
-            <p className="text-brand-cyan text-xs font-bold">Special code</p>
+            <Gift className="w-5 h-5 text-brand-cyan mx-auto mb-1" />
+            <p className="text-gray-900 font-medium text-xs">Refer Friend</p>
+            <p className="text-brand-cyan text-xs font-bold">AED 25 each</p>
           </div>
         </div>
 
