@@ -4,6 +4,7 @@ import { getFeaturedProducts, getBestSellers } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import CountdownBanner from "@/components/CountdownBanner";
 import RecentlyViewed from "@/components/RecentlyViewed";
+import HeroAnimation from "@/components/HeroAnimation";
 
 export default function HomePage() {
   const featured = getFeaturedProducts();
@@ -11,72 +12,8 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero Section — Full width, clean, premium */}
-      <section className="relative bg-gradient-to-br from-[#f8faff] via-white to-[#f0f4ff] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left — Text */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-cyan/20 bg-white text-brand-cyan text-xs font-semibold mb-6 shadow-sm">
-                <span className="w-2 h-2 bg-brand-cyan rounded-full animate-pulse" />
-                Premium Research Grade · ≥99% Purity
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#1B3A5C] leading-[1.1] mb-6">
-                Advanced<br />
-                <span className="text-brand-cyan">Peptide</span> Research<br />
-                Solutions
-              </h1>
-
-              <p className="text-lg text-[#5a6f80] leading-relaxed mb-8 max-w-lg">
-                Pharmaceutical-grade research peptides with rigorous quality control.
-                BPC-157, TB-500, Semaglutide, and more — trusted by researchers across the UAE.
-              </p>
-
-              <div className="flex flex-wrap gap-4 mb-10">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-brand-cyan text-white font-bold text-base hover:bg-brand-cyan/90 transition-all shadow-lg shadow-brand-cyan/20"
-                >
-                  Shop All Products
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border-2 border-[#1B3A5C]/10 text-[#1B3A5C] font-semibold hover:border-brand-cyan/50 transition-all"
-                >
-                  Learn More
-                </Link>
-              </div>
-
-              {/* Mini trust stats */}
-              <div className="flex gap-8">
-                {[
-                  { value: "20+", label: "Products" },
-                  { value: "99%+", label: "Purity" },
-                  { value: "24h", label: "Shipping" },
-                ].map(({ value, label }) => (
-                  <div key={label}>
-                    <p className="text-2xl font-extrabold text-[#1B3A5C]">{value}</p>
-                    <p className="text-xs text-[#8a9bab] font-medium">{label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right — Hero image / vial showcase */}
-            <div className="relative hidden lg:flex items-center justify-center">
-              <div className="absolute w-80 h-80 bg-brand-cyan/5 rounded-full blur-3xl" />
-              <div className="absolute w-60 h-60 bg-blue-100/50 rounded-full blur-2xl -top-10 right-10" />
-              <img
-                src="/images/bpc157.jpg"
-                alt="BioStack Peptides Vial"
-                className="relative z-10 h-96 object-contain drop-shadow-2xl"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Cinematic Hero with DNA/Molecular Animation */}
+      <HeroAnimation />
 
       {/* Trust Bar — Like UAE Peptides press logos */}
       <section className="border-y border-[#e8edf2] bg-white">
