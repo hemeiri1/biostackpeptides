@@ -47,20 +47,59 @@ export default function AccountPage() {
       return;
     }
 
-    const parsed = JSON.parse(saved);
-    // Fill defaults for old user data missing new fields
-    setUser({
-      totalSpent: 0,
-      monthlySpent: 0,
-      tier: "Bronze",
-      referralCode: "",
-      referredBy: "",
-      birthday: "",
-      lastOrderDate: "",
-      reviewCount: 0,
-      ...parsed,
-    });
-    setLoading(false);
+    // Fetch fresh user data from server
+    fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "me", token }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.user) {
+          localStorage.setItem("biostack_user", JSON.stringify(data.user));
+          setUser({
+            totalSpent: 0,
+            monthlySpent: 0,
+            tier: "Bronze",
+            referralCode: "",
+            referredBy: "",
+            birthday: "",
+            lastOrderDate: "",
+            reviewCount: 0,
+            ...data.user,
+          });
+        } else {
+          // Fallback to localStorage
+          const parsed = JSON.parse(saved);
+          setUser({
+            totalSpent: 0,
+            monthlySpent: 0,
+            tier: "Bronze",
+            referralCode: "",
+            referredBy: "",
+            birthday: "",
+            lastOrderDate: "",
+            reviewCount: 0,
+            ...parsed,
+          });
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        const parsed = JSON.parse(saved);
+        setUser({
+          totalSpent: 0,
+          monthlySpent: 0,
+          tier: "Bronze",
+          referralCode: "",
+          referredBy: "",
+          birthday: "",
+          lastOrderDate: "",
+          reviewCount: 0,
+          ...parsed,
+        });
+        setLoading(false);
+      });
   }, [router]);
 
   const { logout: authLogout } = useAuth();
