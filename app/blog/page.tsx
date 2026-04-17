@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Clock, BookOpen } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Articles & Research Guides — BioStack Peptides",
+  description: "Research guides, peptide comparisons, and lab protocols. BPC-157, Retatrutide, NAD+, and more.",
+};
 
 const articles = [
   {

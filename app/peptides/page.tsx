@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, FlaskConical, Dna, Shield, Zap, Brain, Heart, Sparkles, Scale } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "What Are Peptides? — BioStack Peptides",
+  description: "A comprehensive guide to peptides — what they are, how they work, research categories, reconstitution, storage, and why purity matters.",
+};
 
 export default function PeptidesPage() {
   return (

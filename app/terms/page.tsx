@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Terms of Service — BioStack Peptides",
+  description: "Terms of service for BioStack Peptides. Research use only, 18+ age requirement, returns policy.",
+};
 
 export default function TermsPage() {
   return (

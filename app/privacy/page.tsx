@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy — BioStack Peptides",
+  description: "How BioStack Peptides collects, uses, and protects your personal data. GDPR compliant.",
+};
 
 export default function PrivacyPage() {
   return (

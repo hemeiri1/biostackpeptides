@@ -36,6 +36,9 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     if (!product) return;
+    document.title = `${product.name} — BioStack Peptides`;
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", `${product.description} ≥99% purity, COA certified. Buy ${product.name} from BioStack Peptides UAE.`);
     trackProductView(product.slug);
     fetch("/api/products")
       .then((res) => res.json())

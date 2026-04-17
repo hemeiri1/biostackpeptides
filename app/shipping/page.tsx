@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Truck, Clock, Package, Shield, MapPin } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Shipping Policy — BioStack Peptides",
+  description: "Fast, discreet UAE shipping. Free shipping over AED 300. Orders ship within 24 hours in temperature-stable packaging.",
+};
 
 export default function ShippingPage() {
   return (
