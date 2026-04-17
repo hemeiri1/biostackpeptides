@@ -24,21 +24,30 @@ async function redisSet(key: string, value: string) {
   });
 }
 
-// GET — return all products with stock status and quantity
+// GET — return all products with per-size stock quantities
 export async function GET() {
   const { products } = await import("@/data/products");
 
   const productList = await Promise.all(
     products.map(async (p) => {
-      const stockOverride = await redisGet(`stock:${p.id}`);
-      const quantityStr = await redisGet(`stock-qty:${p.id}`);
-      const quantity = quantityStr !== null ? parseInt(quantityStr) : 10; // default 10
+      const sizes = await Promise.all(
+        p.sizes.map(async (s) => {
+          const qtyStr = await redisGet(`stock-size:${p.id}:${s.label}`);
+          return {
+            label: s.label,
+            quantity: qtyStr !== null ? parseInt(qtyStr) : 10,
+          };
+        })
+      );
+
+      const totalQty = sizes.reduce((sum, s) => sum + s.quantity, 0);
+
       return {
         id: p.id,
         slug: p.slug,
         name: p.name,
-        inStock: stockOverride !== null ? stockOverride === "true" : quantity > 0,
-        quantity,
+        inStock: totalQty > 0,
+        sizes,
         salesCount: p.salesCount,
       };
     })
@@ -47,18 +56,30 @@ export async function GET() {
   return NextResponse.json(productList);
 }
 
-// POST — update stock statuses and quantities
+// POST — update stock for a specific size
 export async function POST(req: Request) {
-  const updates: { id: string; inStock: boolean; quantity?: number }[] = await req.json();
+  const body = await req.json();
 
-  await Promise.all(
-    updates.map(async (item) => {
-      await redisSet(`stock:${item.id}`, String(item.inStock));
-      if (item.quantity !== undefined) {
-        await redisSet(`stock-qty:${item.id}`, String(item.quantity));
-      }
-    })
-  );
+  // New format: { productId, sizeLabel, quantity }
+  if (body.productId && body.sizeLabel !== undefined) {
+    await redisSet(`stock-size:${body.productId}:${body.sizeLabel}`, String(body.quantity));
+    const inStock = body.quantity > 0;
+    await redisSet(`stock:${body.productId}`, String(inStock));
+    return NextResponse.json({ success: true });
+  }
 
-  return NextResponse.json({ success: true, updated: updates.length });
+  // Legacy format: [{ id, inStock, quantity }]
+  if (Array.isArray(body)) {
+    await Promise.all(
+      body.map(async (item: any) => {
+        await redisSet(`stock:${item.id}`, String(item.inStock));
+        if (item.quantity !== undefined) {
+          await redisSet(`stock-qty:${item.id}`, String(item.quantity));
+        }
+      })
+    );
+    return NextResponse.json({ success: true, updated: body.length });
+  }
+
+  return NextResponse.json({ success: false, message: "Invalid format" });
 }
