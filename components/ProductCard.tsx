@@ -11,12 +11,11 @@ import { useStock } from "@/lib/useStock";
 import { useProducts } from "@/lib/useProducts";
 import { useToast } from "@/components/Toast";
 import WishlistButton from "@/components/WishlistButton";
-import LowStockBadge from "@/components/LowStockBadge";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { format } = useCurrency();
-  const { isInStock } = useStock();
+  const { isInStock, getQuantity } = useStock();
   const { getProductSizes, getProductName } = useProducts();
   const { showToast } = useToast();
   const inStock = isInStock(product.id, product.inStock);
@@ -95,7 +94,12 @@ export default function ProductCard({ product }: { product: Product }) {
             ))}
           </div>
 
-          {inStock && <LowStockBadge productId={product.id} />}
+          {inStock && getQuantity(product.id) <= 5 && (
+            <div className="flex items-center gap-1.5 mt-1">
+              <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
+              <span className="text-orange-600 text-[11px] font-semibold">Only {getQuantity(product.id)} left in stock</span>
+            </div>
+          )}
 
           {/* Price + Add to cart */}
           <div className="flex items-center justify-between mt-2">
