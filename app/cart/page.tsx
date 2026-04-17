@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets, Tag, Check, User, Phone, Mail } from "lucide-react";
+import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets, Tag, Check, User, Phone, Mail, MapPin } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useProducts } from "@/lib/useProducts";
@@ -30,6 +30,9 @@ export default function CartPage() {
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [customerCity, setCustomerCity] = useState("");
+  const [customerEmirate, setCustomerEmirate] = useState("Dubai");
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   // Auto-fill from logged-in user
@@ -301,6 +304,44 @@ export default function CartPage() {
                   className="w-full pl-10 pr-4 py-2.5 bg-white border border-brand-border rounded-xl text-sm text-gray-900 focus:outline-none focus:border-brand-cyan/50"
                 />
               </div>
+              {/* Shipping Address */}
+              <p className="text-xs font-medium text-brand-muted pt-2">Shipping Address</p>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
+                <input
+                  type="text"
+                  value={customerAddress}
+                  onChange={(e) => setCustomerAddress(e.target.value)}
+                  placeholder="Street address, building, apartment"
+                  required
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-brand-border rounded-xl text-sm text-gray-900 focus:outline-none focus:border-brand-cyan/50"
+                />
+              </div>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={customerCity}
+                    onChange={(e) => setCustomerCity(e.target.value)}
+                    placeholder="City"
+                    required
+                    className="w-full px-4 py-2.5 bg-white border border-brand-border rounded-xl text-sm text-gray-900 focus:outline-none focus:border-brand-cyan/50"
+                  />
+                </div>
+                <select
+                  value={customerEmirate}
+                  onChange={(e) => setCustomerEmirate(e.target.value)}
+                  className="px-4 py-2.5 bg-white border border-brand-border rounded-xl text-sm text-gray-900 focus:outline-none focus:border-brand-cyan/50 appearance-none"
+                >
+                  <option value="Dubai">Dubai</option>
+                  <option value="Abu Dhabi">Abu Dhabi</option>
+                  <option value="Sharjah">Sharjah</option>
+                  <option value="Ajman">Ajman</option>
+                  <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                  <option value="Fujairah">Fujairah</option>
+                  <option value="Umm Al Quwain">Umm Al Quwain</option>
+                </select>
+              </div>
             </div>
 
             {/* Terms checkbox */}
@@ -324,6 +365,10 @@ export default function CartPage() {
                   alert("Please enter your name and phone number.");
                   return;
                 }
+                if (!customerAddress.trim() || !customerCity.trim()) {
+                  alert("Please enter your shipping address and city.");
+                  return;
+                }
                 setCheckingOut(true);
                 try {
                   const res = await fetch("/api/checkout", {
@@ -341,6 +386,9 @@ export default function CartPage() {
                       customerName,
                       customerPhone,
                       customerEmail,
+                      customerAddress,
+                      customerCity,
+                      customerEmirate,
                     }),
                   });
                   const data = await res.json();
@@ -358,6 +406,9 @@ export default function CartPage() {
                       customerName,
                       customerPhone,
                       customerEmail,
+                      customerAddress,
+                      customerCity,
+                      customerEmirate,
                     }));
                     window.location.href = data.url;
                   } else {
