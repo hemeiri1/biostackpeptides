@@ -6,6 +6,7 @@ import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, Plus, Droplets, Tag, Check,
 import { useCart } from "@/lib/CartContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useProducts } from "@/lib/useProducts";
+import { trackEvent } from "@/components/SiteTracker";
 import { products } from "@/data/products";
 
 export default function CartPage() {
@@ -370,6 +371,7 @@ export default function CartPage() {
                   return;
                 }
                 setCheckingOut(true);
+                trackEvent("checkout");
                 try {
                   const res = await fetch("/api/checkout", {
                     method: "POST",

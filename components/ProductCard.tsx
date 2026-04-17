@@ -10,6 +10,7 @@ import { useCurrency } from "@/lib/CurrencyContext";
 import { useStock } from "@/lib/useStock";
 import { useProducts } from "@/lib/useProducts";
 import { useToast } from "@/components/Toast";
+import { trackEvent } from "@/components/SiteTracker";
 import WishlistButton from "@/components/WishlistButton";
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -30,6 +31,7 @@ export default function ProductCard({ product }: { product: Product }) {
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
     addToCart(product, currentSize.label);
+    trackEvent("add_to_cart", product.id, product.name);
     showToast(`${product.shortName} (${currentSize.label}) added to cart!`);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);

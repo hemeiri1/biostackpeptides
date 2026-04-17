@@ -15,6 +15,7 @@ import NewsletterSection from "@/components/NewsletterSection";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ExitIntent from "@/components/ExitIntent";
 import Analytics from "@/components/Analytics";
+import SiteTracker from "@/components/SiteTracker";
 import { AuthProvider } from "@/lib/AuthContext";
 
 export const metadata: Metadata = {
@@ -61,6 +62,7 @@ export default function RootLayout({
               <ExitIntent />
               <TrackingPixel />
               <Analytics />
+              <SiteTracker />
             </ToastProvider>
             </AuthProvider>
           </CartProvider>

@@ -239,6 +239,13 @@ export default function AdminDashboard() {
               <p className="text-brand-muted text-xs">View users & loyalty stats</p>
             </div>
           </Link>
+          <Link href="/admin/analytics" className="flex items-center gap-3 p-4 rounded-xl border border-brand-cyan/30 bg-brand-cyan/5 hover:border-brand-cyan/50 hover:shadow-md transition-all">
+            <BarChart3 className="w-5 h-5 text-brand-cyan" />
+            <div>
+              <p className="text-gray-900 font-medium text-sm">Analytics</p>
+              <p className="text-brand-muted text-xs">Views, conversions & revenue</p>
+            </div>
+          </Link>
         </div>
       </div>
 

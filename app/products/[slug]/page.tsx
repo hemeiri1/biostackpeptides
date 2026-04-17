@@ -19,6 +19,7 @@ import ProductCard from "@/components/ProductCard";
 import VialImage from "@/components/VialImage";
 import ProductReviews from "@/components/ProductReviews";
 import RecentlyViewed, { trackProductView } from "@/components/RecentlyViewed";
+import { trackEvent } from "@/components/SiteTracker";
 import WishlistButton from "@/components/WishlistButton";
 
 export default function ProductDetailPage() {
@@ -37,6 +38,7 @@ export default function ProductDetailPage() {
   useEffect(() => {
     if (!product) return;
     document.title = `${product.name} — BioStack Peptides`;
+    trackEvent("product_view", product.id, product.name);
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", `${product.description} ≥99% purity, COA certified. Buy ${product.name} from BioStack Peptides UAE.`);
     trackProductView(product.slug);
