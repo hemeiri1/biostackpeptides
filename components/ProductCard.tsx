@@ -45,12 +45,12 @@ export default function ProductCard({ product }: { product: Product }) {
             <VialImage key={`${product.slug}-${currentSize?.label}`} name={product.shortName} size={currentSize?.label || ""} slug={product.slug} className="h-48" />
           </div>
           {product.badge && (
-            <span className="absolute top-3 left-3 text-xs font-bold px-2 py-1 rounded bg-brand-cyan text-white">
+            <span className="absolute top-3 left-3 text-xs font-bold px-2 py-1 rounded bg-brand-cyan text-white z-20">
               {product.badge}
             </span>
           )}
           {/* Purity badge + Wishlist */}
-          <div className="absolute top-3 right-3 flex items-center gap-1.5">
+          <div className="absolute top-3 right-3 flex items-center gap-1.5 z-20">
             <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-green-50 text-green-700 border border-green-200">
               ≥99% Pure
             </span>
