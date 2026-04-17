@@ -30,27 +30,25 @@ export default function InventoryPage() {
   useEffect(() => { fetchProducts(); }, []);
 
   async function toggleStock(id: string, currentStatus: boolean) {
-    setSavingId(id);
     const newStatus = !currentStatus;
+    setSavingId(id);
 
-    // Update UI immediately
-    setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, inStock: newStatus } : p))
-    );
-
-    // Save to Redis
     try {
-      await fetch("/api/inventory", {
+      const res = await fetch("/api/inventory", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify([{ id, inStock: newStatus }]),
+        body: JSON.stringify([{ id: id, inStock: newStatus }]),
       });
-    } catch {
-      // Revert on error
-      setProducts((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, inStock: currentStatus } : p))
-      );
-      alert("Failed to update. Try again.");
+      const data = await res.json();
+      if (data.success) {
+        setProducts((prev) =>
+          prev.map((p) => (p.id === id ? { ...p, inStock: newStatus } : p))
+        );
+      } else {
+        alert("Failed: " + JSON.stringify(data));
+      }
+    } catch (err: any) {
+      alert("Error: " + err.message);
     }
     setSavingId(null);
   }
