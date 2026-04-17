@@ -210,7 +210,7 @@ export default function AdminDashboard() {
       {/* Quick Actions */}
       <div className="mt-10 mb-8">
         <h3 className="text-sm font-semibold text-gray-900 mb-3">Quick Actions</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <Link href="/admin/orders" className="flex items-center gap-3 p-4 rounded-xl border border-brand-cyan/30 bg-brand-cyan/5 hover:border-brand-cyan/50 hover:shadow-md transition-all">
             <Package className="w-5 h-5 text-brand-cyan" />
             <div>
@@ -232,11 +232,11 @@ export default function AdminDashboard() {
               <p className="text-brand-muted text-xs">Edit names and prices</p>
             </div>
           </Link>
-          <Link href="/contact" className="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-white hover:border-brand-cyan/40 hover:shadow-md transition-all">
+          <Link href="/admin/users" className="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-white hover:border-brand-cyan/40 hover:shadow-md transition-all">
             <MessageSquare className="w-5 h-5 text-brand-cyan" />
             <div>
-              <p className="text-gray-900 font-medium text-sm">Support Inbox</p>
-              <p className="text-brand-muted text-xs">Check contact submissions</p>
+              <p className="text-gray-900 font-medium text-sm">Customers</p>
+              <p className="text-brand-muted text-xs">View users & loyalty stats</p>
             </div>
           </Link>
         </div>

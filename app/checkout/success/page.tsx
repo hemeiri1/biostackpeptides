@@ -52,7 +52,9 @@ export default function CheckoutSuccessPage() {
       localStorage.removeItem("biostack-pending-order");
     }
 
+    // Clear cart from both context and localStorage
     clearCart();
+    localStorage.removeItem("biostack-cart");
   }, [clearCart]);
 
   return (
