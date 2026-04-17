@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/AuthContext";
 import {
   User, Award, ShoppingBag, Star, Gift, LogOut, ArrowRight,
   Copy, Check, Crown, Zap, Calendar, MessageSquare, TrendingUp,
@@ -62,17 +63,10 @@ export default function AccountPage() {
     setLoading(false);
   }, [router]);
 
+  const { logout: authLogout } = useAuth();
+
   function handleLogout() {
-    const token = localStorage.getItem("biostack_token");
-    if (token) {
-      fetch("/api/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "logout", token }),
-      });
-    }
-    localStorage.removeItem("biostack_token");
-    localStorage.removeItem("biostack_user");
+    authLogout();
     router.push("/");
   }
 

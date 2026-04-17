@@ -15,6 +15,7 @@ import NewsletterSection from "@/components/NewsletterSection";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ExitIntent from "@/components/ExitIntent";
 import Analytics from "@/components/Analytics";
+import { AuthProvider } from "@/lib/AuthContext";
 
 export const metadata: Metadata = {
   title: "BioStackPeptides — Premium Research Peptides",
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body className="bg-white min-h-screen">
         <CurrencyProvider>
           <CartProvider>
+            <AuthProvider>
             <ToastProvider>
               <AnnouncementBar />
               <Navbar />
@@ -60,6 +62,7 @@ export default function RootLayout({
               <TrackingPixel />
               <Analytics />
             </ToastProvider>
+            </AuthProvider>
           </CartProvider>
         </CurrencyProvider>
       </body>

@@ -1,21 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ShoppingCart, Menu, X, ChevronDown, UserCircle } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useCurrency, currencies } from "@/lib/CurrencyContext";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [currencyOpen, setCurrencyOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { loggedIn } = useAuth();
   const { totalItems } = useCart();
   const { currency, setCurrency } = useCurrency();
-
-  useEffect(() => {
-    setLoggedIn(!!localStorage.getItem("biostack_token"));
-  }, []);
 
   const links = [
     { href: "/products", label: "Products" },

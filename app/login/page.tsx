@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LogIn, Mail, Lock, Phone } from "lucide-react";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function LoginPage() {
   const [loginMethod, setLoginMethod] = useState<"email" | "phone">("email");
@@ -13,6 +14,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { login } = useAuth();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -31,8 +33,7 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (data.success) {
-        localStorage.setItem("biostack_token", data.token);
-        localStorage.setItem("biostack_user", JSON.stringify(data.user));
+        login(data.token, data.user);
         if (data.birthdayReward) {
           localStorage.setItem("biostack_birthday_code", data.birthdayReward);
         }
