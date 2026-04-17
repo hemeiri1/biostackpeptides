@@ -15,7 +15,7 @@ import WishlistButton from "@/components/WishlistButton";
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { format } = useCurrency();
-  const { isInStock, getQuantity } = useStock();
+  const { isInStock, isSizeInStock, getSizeQuantity } = useStock();
   const { getProductSizes, getProductName } = useProducts();
   const { showToast } = useToast();
   const inStock = isInStock(product.id, product.inStock);
@@ -76,28 +76,33 @@ export default function ProductCard({ product }: { product: Product }) {
 
           {/* Size selector — always show all sizes with prices */}
           <div className="flex flex-wrap gap-2 mb-3" onClick={(e) => e.preventDefault()}>
-            {liveSizes.map((size, idx) => (
-              <button
-                key={size.label}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setSelectedSizeIdx(idx);
-                }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                  selectedSizeIdx === idx
-                    ? "border-brand-cyan bg-brand-cyan/10 text-brand-cyan"
-                    : "border-brand-border text-brand-muted hover:border-brand-muted"
-                }`}
-              >
-                {size.label} — {format(size.price)}
-              </button>
-            ))}
+            {liveSizes.map((size, idx) => {
+              const sizeAvailable = isSizeInStock(product.id, size.label);
+              return (
+                <button
+                  key={size.label}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedSizeIdx(idx);
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                    !sizeAvailable
+                      ? "border-red-200 bg-red-50 text-red-400 line-through"
+                      : selectedSizeIdx === idx
+                      ? "border-brand-cyan bg-brand-cyan/10 text-brand-cyan"
+                      : "border-brand-border text-brand-muted hover:border-brand-muted"
+                  }`}
+                >
+                  {size.label} — {format(size.price)} {!sizeAvailable && "(Sold Out)"}
+                </button>
+              );
+            })}
           </div>
 
-          {inStock && getQuantity(product.id) <= 5 && (
+          {isSizeInStock(product.id, currentSize?.label) && getSizeQuantity(product.id, currentSize?.label) <= 5 && (
             <div className="flex items-center gap-1.5 mt-1">
               <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
-              <span className="text-orange-600 text-[11px] font-semibold">Only {getQuantity(product.id)} left in stock</span>
+              <span className="text-orange-600 text-[11px] font-semibold">Only {getSizeQuantity(product.id, currentSize?.label)} left in stock</span>
             </div>
           )}
 
@@ -106,7 +111,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <span className="text-gray-900 font-bold text-lg">{format(currentPrice)}</span>
             <button
               onClick={handleAddToCart}
-              disabled={!inStock}
+              disabled={!isSizeInStock(product.id, currentSize?.label)}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 added
                   ? "bg-green-500/20 text-green-400 border border-green-500/30"

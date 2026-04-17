@@ -2,13 +2,18 @@
 
 import { useState, useEffect } from "react";
 
-interface StockData {
-  inStock: boolean;
+interface SizeStock {
+  label: string;
   quantity: number;
 }
 
+interface ProductStockData {
+  inStock: boolean;
+  sizes: SizeStock[];
+}
+
 interface StockStatus {
-  [productId: string]: StockData;
+  [productId: string]: ProductStockData;
 }
 
 let cachedStock: StockStatus | null = null;
@@ -18,12 +23,12 @@ export function useStock() {
 
   useEffect(() => {
     if (cachedStock) return;
-    fetch("/api/inventory")
+    fetch("/api/inventory", { cache: "no-store" })
       .then((res) => res.json())
-      .then((data: { id: string; inStock: boolean; quantity: number }[]) => {
+      .then((data: { id: string; inStock: boolean; sizes: SizeStock[] }[]) => {
         const stockMap: StockStatus = {};
         data.forEach((p) => {
-          stockMap[p.id] = { inStock: p.inStock, quantity: p.quantity };
+          stockMap[p.id] = { inStock: p.inStock, sizes: p.sizes || [] };
         });
         cachedStock = stockMap;
         setStock(stockMap);
@@ -36,10 +41,21 @@ export function useStock() {
     return defaultValue;
   }
 
-  function getQuantity(productId: string): number {
-    if (productId in stock) return stock[productId].quantity;
+  function isSizeInStock(productId: string, sizeLabel: string): boolean {
+    if (productId in stock) {
+      const size = stock[productId].sizes.find((s) => s.label === sizeLabel);
+      if (size) return size.quantity > 0;
+    }
+    return true; // default to in stock
+  }
+
+  function getSizeQuantity(productId: string, sizeLabel: string): number {
+    if (productId in stock) {
+      const size = stock[productId].sizes.find((s) => s.label === sizeLabel);
+      if (size) return size.quantity;
+    }
     return 10;
   }
 
-  return { isInStock, getQuantity };
+  return { isInStock, isSizeInStock, getSizeQuantity };
 }
