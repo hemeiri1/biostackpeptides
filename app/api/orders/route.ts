@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { sendTelegramMessage } from "@/lib/telegram";
 
 const UPSTASH_URL = "https://devoted-gorilla-69499.upstash.io";
 const UPSTASH_TOKEN = "gQAAAAAAAQ97AAIncDE2Y2VlODA1ZDJhOWQ0MGQ2Yjg0NWIzMWQyNmQzYjE5YXAxNjk0OTk";
@@ -146,6 +147,18 @@ export async function POST(req: Request) {
         }
       } catch {}
     }
+
+    // Send Telegram notification
+    const itemsList = order.items?.map((i: any) => `• ${i.name} (${i.size}) x${i.quantity}`).join("\n") || "";
+    await sendTelegramMessage(
+      `🔔 <b>New Order — ${orderId}</b>\n\n` +
+      `👤 ${order.customerName || "Guest"}\n` +
+      `📱 ${order.customerPhone || "-"}\n` +
+      `📧 ${order.customerEmail || "-"}\n` +
+      `📍 ${order.customerAddress || ""}, ${order.customerCity || ""} ${order.customerEmirate || ""}\n\n` +
+      `🛒 <b>Items:</b>\n${itemsList}\n\n` +
+      `💰 <b>Total: AED ${(order.total || 0).toFixed(2)}</b>`
+    ).catch(() => {});
 
     return NextResponse.json({ success: true, orderId });
   } catch (error: any) {
