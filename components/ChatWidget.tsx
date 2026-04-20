@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Bot, User, Globe } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User } from "lucide-react";
 import { products } from "@/data/products";
 
 interface Message {
@@ -245,7 +245,7 @@ export default function ChatWidget() {
       )}
 
       {isOpen && (
-        <div className={`fixed bottom-6 right-6 z-50 w-[380px] h-[520px] bg-white rounded-2xl shadow-2xl border border-brand-border flex flex-col overflow-hidden ${lang === "ar" ? "text-right" : ""}`} dir={lang === "ar" ? "rtl" : "ltr"}>
+        <div className={`fixed bottom-6 right-4 left-4 sm:left-auto sm:right-6 z-50 sm:w-[380px] h-[520px] bg-white rounded-2xl shadow-2xl border border-brand-border flex flex-col overflow-hidden ${lang === "ar" ? "text-right" : ""}`} dir={lang === "ar" ? "rtl" : "ltr"}>
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 bg-brand-cyan text-white">
             <div className="flex items-center gap-3">
