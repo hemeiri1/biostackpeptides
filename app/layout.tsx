@@ -30,10 +30,17 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "BioStackPeptides — Premium Research Peptides",
-    description: "Premium quality research peptides for scientific research. 99%+ purity, COA on every order.",
+    description: "Premium quality research peptides for scientific research. 99%+ purity, COA on every order. UAE based.",
     url: "https://biostackpeptide.com",
     siteName: "BioStackPeptides",
-    images: [{ url: "/logo.jpg", width: 512, height: 512 }],
+    type: "website",
+    images: [{ url: "https://biostackpeptide.com/logo.jpg", width: 1268, height: 559 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BioStackPeptides — Premium Research Peptides",
+    description: "Premium quality research peptides. 99%+ purity, COA on every order. UAE based.",
+    images: ["https://biostackpeptide.com/logo.jpg"],
   },
 };
 
