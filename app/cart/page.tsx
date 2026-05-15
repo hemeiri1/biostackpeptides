@@ -112,62 +112,86 @@ export default function CartPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Items */}
         <div className="lg:col-span-2 space-y-4">
-          {items.map((item) => (
+          {items.map((item) => {
+            const isFreeGift = item.product.id === "FREE-BAC-WATER";
+            return (
             <div
               key={`${item.product.id}-${item.size}`}
-              className="flex gap-4 p-5 rounded-xl border border-brand-border bg-brand-card"
+              className={`flex gap-4 p-5 rounded-xl border ${isFreeGift ? "border-green-300 bg-green-50" : "border-brand-border bg-brand-card"}`}
             >
-              <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-50 shrink-0">
+              <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-50 shrink-0 relative">
                 <img
                   src={item.product.image || "/vial-base.jpg"}
                   alt={item.product.name}
                   className="w-full h-full object-contain"
                 />
+                {isFreeGift && (
+                  <div className="absolute top-0 left-0 bg-green-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-br-lg">
+                    FREE
+                  </div>
+                )}
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <h3 className="text-gray-900 font-semibold">{item.product.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-gray-900 font-semibold">{item.product.name}</h3>
+                      {isFreeGift && (
+                        <span className="px-2 py-0.5 rounded-full bg-green-500 text-white text-[10px] font-bold">
+                          🎁 FREE GIFT
+                        </span>
+                      )}
+                    </div>
                     <p className="text-brand-muted text-sm">Size: {item.size}</p>
+                    {isFreeGift && (
+                      <p className="text-green-600 text-xs mt-1">Complimentary with orders over AED 500</p>
+                    )}
                   </div>
-                  <button
-                    onClick={() => removeFromCart(item.product.id, item.size)}
-                    className="text-brand-muted hover:text-red-400 transition-colors p-1"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  {!isFreeGift && (
+                    <button
+                      onClick={() => removeFromCart(item.product.id, item.size)}
+                      className="text-brand-muted hover:text-red-400 transition-colors p-1"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.product.id, item.size, item.quantity - 1)
-                      }
-                      className="w-8 h-8 rounded border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors flex items-center justify-center"
-                    >
-                      −
-                    </button>
-                    <span className="text-gray-900 font-medium w-6 text-center">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.product.id, item.size, item.quantity + 1)
-                      }
-                      className="w-8 h-8 rounded border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors flex items-center justify-center"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <span className="text-gray-900 font-semibold">
-                    {format(getLivePrice(item) * item.quantity)}
+                  {isFreeGift ? (
+                    <span className="text-green-600 text-sm font-medium">Qty: 1</span>
+                  ) : (
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.product.id, item.size, item.quantity - 1)
+                        }
+                        className="w-8 h-8 rounded border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors flex items-center justify-center"
+                      >
+                        −
+                      </button>
+                      <span className="text-gray-900 font-medium w-6 text-center">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.product.id, item.size, item.quantity + 1)
+                        }
+                        className="w-8 h-8 rounded border border-brand-border text-gray-900 hover:border-brand-cyan/50 transition-colors flex items-center justify-center"
+                      >
+                        +
+                      </button>
+                    </div>
+                  )}
+                  <span className={`font-semibold ${isFreeGift ? "text-green-600" : "text-gray-900"}`}>
+                    {isFreeGift ? "FREE" : format(getLivePrice(item) * item.quantity)}
                   </span>
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Summary */}

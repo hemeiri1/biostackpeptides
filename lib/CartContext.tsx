@@ -100,6 +100,50 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const clearCart = useCallback(() => setItems([]), []);
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
+  const subtotalBeforeGift = items
+    .filter(i => !i.product.id.startsWith("FREE-"))
+    .reduce((sum, i) => sum + (i.sizePrice || 0) * i.quantity, 0);
+
+  // Free BAC Water 3ml for orders over 500 AED
+  const FREE_BAC_WATER_ID = "FREE-BAC-WATER";
+  const qualifiesForFreeGift = subtotalBeforeGift >= 500;
+  const hasFreeGift = items.some(i => i.product.id === FREE_BAC_WATER_ID);
+
+  useEffect(() => {
+    if (!loaded) return;
+    if (qualifiesForFreeGift && !hasFreeGift) {
+      setItems(prev => [
+        ...prev,
+        {
+          product: {
+            id: FREE_BAC_WATER_ID,
+            slug: "bac-water",
+            name: "Bacteriostatic Water 3ml",
+            shortName: "BAC Water (FREE)",
+            category: "Accessories",
+            price: 0,
+            sizes: [{ label: "3ml", price: 0 }],
+            defaultSize: "3ml",
+            description: "FREE gift — orders over 500 AED",
+            longDescription: "",
+            benefits: [],
+            usage: "",
+            storage: "",
+            inStock: true,
+            featured: false,
+            image: "/images/bacwater.jpg",
+            salesCount: 0,
+          } as any,
+          size: "3ml",
+          sizePrice: 0,
+          quantity: 1,
+        },
+      ]);
+    } else if (!qualifiesForFreeGift && hasFreeGift) {
+      setItems(prev => prev.filter(i => i.product.id !== FREE_BAC_WATER_ID));
+    }
+  }, [qualifiesForFreeGift, hasFreeGift, loaded]);
+
   const totalPrice = items.reduce(
     (sum, i) => sum + (i.sizePrice || 0) * i.quantity,
     0
